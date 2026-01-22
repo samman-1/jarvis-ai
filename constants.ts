@@ -1,0 +1,107 @@
+import { ServiceItem, AgentProfile, Industry } from './types';
+
+export const SERVICES: ServiceItem[] = [
+  {
+    id: 's1',
+    title: 'Custom Engineering',
+    description: '',
+    icon: 'cpu'
+  },
+  {
+    id: 's2',
+    title: '24/7 Neural Interaction',
+    description: '',
+    icon: 'brain'
+  },
+  {
+    id: 's3',
+    title: 'Greenfield Architecture',
+    description: '',
+    icon: 'layers'
+  },
+  {
+    id: 's4',
+    title: 'Adaptive Scaling',
+    description: '',
+    icon: 'scale'
+  },
+  {
+    id: 's5',
+    title: 'Operational Autonomy',
+    description: '',
+    icon: 'bot'
+  },
+  {
+    id: 's6',
+    title: 'Financial Integrity',
+    description: '',
+    icon: 'shield'
+  },
+  {
+    id: 's7',
+    title: 'The Jarvis Academy',
+    description: '',
+    icon: 'book'
+  }
+];
+
+export const AGENTS: AgentProfile[] = [
+  {
+    id: 'a1',
+    name: 'The Sales Marshall',
+    role: 'Revenue Operations',
+    specialty: 'Quotes 24/7',
+    clearanceLevel: 'L5',
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2070&auto=format&fit=crop' // 3D Abstract Tech
+  },
+  {
+    id: 'a2',
+    name: 'The Ops Manager',
+    role: 'Logistics',
+    specialty: 'Files Paperwork',
+    clearanceLevel: 'L4',
+    // High-contrast futuristic data center image to fix the "black box" issue
+    image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop' 
+  },
+  {
+    id: 'a3',
+    name: 'The Vouching Agent',
+    role: 'Finance Audit',
+    specialty: 'Financial Auditing',
+    clearanceLevel: 'L5',
+    image: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=2070&auto=format&fit=crop' // 3D Digital Coin
+  }
+];
+
+export const INDUSTRIES: Industry[] = [
+  { 
+    id: 'i3', // MONEY
+    name: 'Money', 
+    detail: 'High-frequency reporting, fraud detection, and autonomous ledger management.',
+    solutions: ['Security', 'Accounting', 'Checking']
+  },
+  { 
+    id: 'i2', // HEALTH
+    name: 'Health', 
+    detail: 'Automated patient intake, billing reconciliation, and compliance auditing.',
+    solutions: ['Billing', 'Rules', 'Check-in']
+  },
+  { 
+    id: 'i1', // SHIPPING
+    name: 'Shipping', 
+    detail: 'No room for human error in supply chains. Real-time route optimization.',
+    solutions: ['Fast Routes', 'Stock Control', 'Truck Ops']
+  },
+  { 
+    id: 'i5', // ONLINE SHOP
+    name: 'Online Shop', 
+    detail: 'Dynamic pricing engines and customer service autonomy.',
+    solutions: ['Pricing', 'Support', 'Returns']
+  },
+  { 
+    id: 'i4', // PROPERTY
+    name: 'Property', 
+    detail: 'Automated property management workflows and tenant screening protocols.',
+    solutions: ['Choosing', 'Rent', 'Fixing']
+  },
+];
