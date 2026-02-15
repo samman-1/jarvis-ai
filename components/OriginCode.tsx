@@ -1,8 +1,22 @@
+
 import React, { useRef, useMemo, useState, useEffect } from 'react';
 import { Canvas, useThree } from '@react-three/fiber';
 import { OrbitControls, Html, Float, Center } from '@react-three/drei';
 import * as THREE from 'three';
 import { useLanguage } from '../contexts/LanguageContext';
+
+// Fix: Use capitalized component variables to bypass JSX.IntrinsicElements checks in environments 
+// where R3F types are not automatically picked up.
+const Group = 'group' as any;
+const Mesh = 'mesh' as any;
+const Primitive = 'primitive' as any;
+const MeshBasicMaterial = 'meshBasicMaterial' as any;
+const SphereGeometry = 'sphereGeometry' as any;
+const RingGeometry = 'ringGeometry' as any;
+const BoxGeometry = 'boxGeometry' as any;
+const AmbientLight = 'ambientLight' as any;
+const PointLight = 'pointLight' as any;
+const GridHelper = 'gridHelper' as any;
 
 // Precise SVG Path Data for Saudi Arabia (Abstraction)
 const GENERATE_KSA_SHAPE = () => {
@@ -69,34 +83,34 @@ const SaudiMapMesh: React.FC<SaudiMapMeshProps> = ({ language }) => {
   }, []);
 
   return (
-    <group>
+    <Group>
       <Center>
-        <group>
+        <Group>
           {/* Main Holographic Mesh */}
-          <mesh>
-            <primitive object={geometry} />
-            <meshBasicMaterial color="#FF4500" wireframe={true} transparent opacity={0.35} />
-          </mesh>
+          <Mesh>
+            <Primitive object={geometry} />
+            <MeshBasicMaterial color="#FF4500" wireframe={true} transparent opacity={0.35} />
+          </Mesh>
 
           {/* Solid Core (Blocks background stars/grid) */}
-          <mesh position={[0, 0, 0.01]}>
-             <primitive object={geometry} />
-             <meshBasicMaterial color="#000000" transparent opacity={0.95} polygonOffset polygonOffsetFactor={1} />
-          </mesh>
+          <Mesh position={[0, 0, 0.01]}>
+             <Primitive object={geometry} />
+             <MeshBasicMaterial color="#000000" transparent opacity={0.95} polygonOffset polygonOffsetFactor={1} />
+          </Mesh>
           
           {/* Glowing Outline Effect */}
-          <mesh position={[0, 0, -0.1]} scale={[1.03, 1.03, 1]}>
-             <primitive object={geometry} />
-             <meshBasicMaterial color="#FF4500" transparent opacity={0.1} side={THREE.BackSide} />
-          </mesh>
+          <Mesh position={[0, 0, -0.1]} scale={[1.03, 1.03, 1]}>
+             <Primitive object={geometry} />
+             <MeshBasicMaterial color="#FF4500" transparent opacity={0.1} side={THREE.BackSide} />
+          </Mesh>
 
           {/* Cities */}
           {CITIES.map((city, idx) => (
             <CityMarker key={idx} city={city} language={language} />
           ))}
-        </group>
+        </Group>
       </Center>
-    </group>
+    </Group>
   );
 };
 
@@ -105,26 +119,26 @@ const CityMarker: React.FC<{ city: any; language: string }> = ({ city, language 
   const labelXOffset = city.x > 0 ? 5.5 : -5.5;
 
   return (
-    <group position={[city.x, city.y, 0.3]}>
-      <mesh>
-        <sphereGeometry args={[0.12, 16, 16]} />
-        <meshBasicMaterial color="#FF4500" toneMapped={false} />
-      </mesh>
+    <Group position={[city.x, city.y, 0.3]}>
+      <Mesh>
+        <SphereGeometry args={[0.12, 16, 16]} />
+        <MeshBasicMaterial color="#FF4500" toneMapped={false} />
+      </Mesh>
       
-      <mesh rotation={[Math.PI / 2, 0, 0]}>
-         <ringGeometry args={[0.18, 0.2, 32]} />
-         <meshBasicMaterial color="#FF4500" transparent opacity={0.6} side={THREE.DoubleSide} />
-      </mesh>
+      <Mesh rotation={[Math.PI / 2, 0, 0]}>
+         <RingGeometry args={[0.18, 0.2, 32]} />
+         <MeshBasicMaterial color="#FF4500" transparent opacity={0.6} side={THREE.DoubleSide} />
+      </Mesh>
 
-      <mesh position={[0, labelHeight / 2, 0]}>
-         <boxGeometry args={[0.01, labelHeight, 0.01]} />
-         <meshBasicMaterial color="#FF4500" transparent opacity={0.7} />
-      </mesh>
+      <Mesh position={[0, labelHeight / 2, 0]}>
+         <BoxGeometry args={[0.01, labelHeight, 0.01]} />
+         <MeshBasicMaterial color="#FF4500" transparent opacity={0.7} />
+      </Mesh>
 
-      <mesh position={[labelXOffset / 2, labelHeight, 0]}>
-         <boxGeometry args={[Math.abs(labelXOffset), 0.01, 0.01]} />
-         <meshBasicMaterial color="#FF4500" transparent opacity={0.7} />
-      </mesh>
+      <Mesh position={[labelXOffset / 2, labelHeight, 0]}>
+         <BoxGeometry args={[Math.abs(labelXOffset), 0.01, 0.01]} />
+         <MeshBasicMaterial color="#FF4500" transparent opacity={0.7} />
+      </Mesh>
 
       <Html position={[labelXOffset, labelHeight, 0]} center distanceFactor={15} zIndexRange={[100, 0]} style={{ pointerEvents: 'none' }}>
         <div className="bg-black/95 border border-jarvis-orange/50 backdrop-blur-xl p-3 min-w-[140px] shadow-[0_0_20px_rgba(255,69,0,0.2)] opacity-100">
@@ -139,7 +153,7 @@ const CityMarker: React.FC<{ city: any; language: string }> = ({ city, language 
           </div>
         </div>
       </Html>
-    </group>
+    </Group>
   );
 };
 
@@ -186,17 +200,17 @@ export const OriginCode: React.FC = () => {
           h-[350px] lg:h-[600px] z-30 pointer-events-auto
         `}>
              <Canvas camera={{ position: [0, -1, 18], fov: 45 }}>
-                <ambientLight intensity={0.5} />
-                <pointLight position={[10, 10, 10]} intensity={1} color="#FF4500" />
-                <pointLight position={[-10, -10, -5]} intensity={0.5} color="blue" />
+                <AmbientLight intensity={0.5} />
+                <PointLight position={[10, 10, 10]} intensity={1} color="#FF4500" />
+                <PointLight position={[-10, -10, -5]} intensity={0.5} color="blue" />
 
                 <Float speed={2} rotationIntensity={0.1} floatIntensity={0.2}>
-                   <group scale={0.6}>
+                   <Group scale={0.6}>
                       <SaudiMapMesh language={language} />
-                   </group>
+                   </Group>
                 </Float>
                 
-                <gridHelper args={[40, 40, 0x222222, 0x050505]} position={[0, -4, 0]} />
+                <GridHelper args={[40, 40, 0x222222, 0x050505]} position={[0, -4, 0]} />
                 
                 <MapControls />
              </Canvas>

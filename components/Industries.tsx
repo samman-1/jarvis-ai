@@ -21,9 +21,9 @@ export const Industries: React.FC = () => {
         </p>
       </div>
 
-      {/* Hubs Interactive Grid - Stacks on Mobile */}
+      {/* Hubs Interactive Grid */}
       <div className="max-w-7xl mx-auto px-6 relative z-20">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-6 md:gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6 md:gap-4">
           {INDUSTRIES.map((industry) => {
             const isActive = activeId === industry.id;
             
@@ -35,12 +35,12 @@ export const Industries: React.FC = () => {
                   whileHover={{ scale: 1.02 }}
                   whileTap={{ scale: 0.98 }}
                   className={`
-                    w-full aspect-square max-w-[200px] md:max-w-none flex flex-col items-center justify-center cursor-pointer relative transition-all duration-300
+                    w-full aspect-square flex flex-col items-center justify-center cursor-pointer relative transition-all duration-300
                     border-2 ${isActive ? 'bg-jarvis-orange/20 border-jarvis-orange shadow-[0_0_30px_rgba(255,69,0,0.3)]' : 'bg-tech-gray/40 border-white/10 hover:border-jarvis-orange/50'}
                   `}
                 >
-                  <div className="text-center p-4">
-                    <h3 className={`font-mono text-sm md:text-base font-bold uppercase tracking-widest ${isActive ? 'text-white' : 'text-gray-400'}`}>
+                  <div className="text-center p-2">
+                    <h3 className={`font-mono text-[10px] md:text-xs font-bold uppercase tracking-widest ${isActive ? 'text-white' : 'text-gray-400'}`}>
                       {t(`ind.${industry.id}.name`)}
                     </h3>
                   </div>
@@ -67,10 +67,10 @@ export const Industries: React.FC = () => {
                         exit={{ opacity: 0, height: 0 }}
                         className="overflow-hidden md:absolute md:top-12 md:left-0 md:right-0 z-30"
                       >
-                        {/* Connecting Lines SVG - Hidden on mobile stack for clarity */}
-                        <svg className="hidden md:block absolute top-[-48px] left-0 w-full h-[300px] pointer-events-none overflow-visible" style={{ zIndex: -1 }}>
+                        {/* Connecting Lines SVG */}
+                        <svg className="hidden lg:block absolute top-[-48px] left-0 w-full h-[300px] pointer-events-none overflow-visible" style={{ zIndex: -1 }}>
                            {[0, 1, 2].map((i) => {
-                             const targetY = 120 + (i * 60);
+                             const targetY = 120 + (i * 30); // Reduced vertical multiplier
                              return (
                                <line 
                                  key={`line-${i}`}
@@ -86,22 +86,22 @@ export const Industries: React.FC = () => {
                            })}
                         </svg>
 
-                        {/* Stacked Sub-Nodes */}
-                        <div className="flex flex-col items-center gap-4 md:gap-6 mt-4 md:mt-16 pb-8 md:pb-0">
+                        {/* Stacked Sub-Nodes - Tightened spacing by 50% */}
+                        <div className="flex flex-col items-center gap-2 md:gap-3 mt-2 lg:mt-8 pb-8 md:pb-0">
                            {[1, 2, 3].map((num, i) => (
                              <div
                                key={`sol-${i}`}
-                               className="bg-black/95 border border-jarvis-orange p-3 w-40 text-center backdrop-blur-md shadow-xl"
+                               className="bg-black/95 border border-jarvis-orange p-3 w-40 text-center backdrop-blur-md shadow-xl flex items-center justify-center min-h-[40px]"
                              >
-                               <span className="text-white text-[10px] md:text-[11px] font-mono block uppercase whitespace-nowrap">
+                               <span className="text-white text-[10px] md:text-[11px] font-mono block uppercase break-words w-full leading-tight">
                                  {t(`ind.${industry.id}.sol${num}`)}
                                </span>
                              </div>
                            ))}
                            
                            {/* Detail Description */}
-                           <div className="w-full max-w-[280px] md:w-48 bg-tech-gray border-l-4 border-jarvis-orange p-4 mt-2 md:mt-4 text-left shadow-2xl">
-                              <p className="text-gray-300 text-xs font-sans leading-relaxed">
+                           <div className="w-full max-w-[280px] md:w-48 bg-tech-gray border-l-4 border-jarvis-orange p-4 mt-2 md:mt-3 text-left shadow-2xl">
+                              <p className="text-gray-300 text-[11px] md:text-xs font-sans leading-relaxed break-words overflow-hidden">
                                 {t(`ind.${industry.id}.detail`)}
                               </p>
                            </div>

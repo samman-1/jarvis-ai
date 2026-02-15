@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, Cpu, BrainCircuit, Layers, Scaling, Bot, ShieldCheck, BookOpen } from 'lucide-react';
+import { X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const SECTORS = [
-  { id: 's1', icon: Cpu },
-  { id: 's2', icon: BrainCircuit },
-  { id: 's3', icon: Layers },
-  { id: 's4', icon: Scaling },
-  { id: 's5', icon: Bot },
-  { id: 's6', icon: ShieldCheck },
-  { id: 's7', icon: BookOpen },
+  { id: 'finance', label: 'sector.finance' },
+  { id: 'healthcare', label: 'sector.healthcare' },
+  { id: 'supply_chain', label: 'sector.supply_chain' },
+  { id: 'ecommerce', label: 'sector.ecommerce' },
+  { id: 'real_estate', label: 'sector.real_estate' },
+  { id: 'hr', label: 'sector.hr' },
+  { id: 'custom', label: 'sector.custom' },
 ];
+
+const SUB_SYSTEMS: Record<string, string[]> = {
+  finance: ['opt.finance.auditing', 'opt.finance.cashflow', 'opt.finance.expenses', 'opt.other'],
+  healthcare: ['opt.healthcare.records', 'opt.healthcare.support', 'opt.healthcare.billing', 'opt.other'],
+  supply_chain: ['opt.supply_chain.tracking', 'opt.supply_chain.stock', 'opt.supply_chain.planner', 'opt.other'],
+  ecommerce: ['opt.ecommerce.pricing', 'opt.ecommerce.chat', 'opt.ecommerce.orders', 'opt.other'],
+  real_estate: ['opt.real_estate.portals', 'opt.real_estate.contracts', 'opt.real_estate.maintenance', 'opt.other'],
+  hr: ['opt.hr.hiring', 'opt.hr.payroll', 'opt.hr.onboarding', 'opt.other'],
+};
 
 export const LeadForm: React.FC = () => {
   const { t, isLeadFormOpen, closeLeadForm } = useLanguage();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
+  const [subSystem, setSubSystem] = useState<string>('');
+  const [customDescription, setCustomDescription] = useState<string>('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,10 +39,18 @@ export const LeadForm: React.FC = () => {
     setTimeout(() => {
       setIsSubmitted(false);
       setSelectedSector(null);
+      setSubSystem('');
+      setCustomDescription('');
     }, 300);
   };
 
-  // Auto-close after 6 seconds on success
+  // Reset sub-system when sector changes
+  useEffect(() => {
+    setSubSystem('');
+    setCustomDescription('');
+  }, [selectedSector]);
+
+  // Auto-close success message
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout>;
     if (isSubmitted && isLeadFormOpen) {
@@ -43,8 +62,6 @@ export const LeadForm: React.FC = () => {
       if (timeoutId) clearTimeout(timeoutId);
     };
   }, [isSubmitted, isLeadFormOpen]);
-
-  const showOperationalParams = selectedSector === 's1' || selectedSector === 's3';
 
   return (
     <AnimatePresence>
@@ -59,7 +76,7 @@ export const LeadForm: React.FC = () => {
             initial={{ scale: 0.95, opacity: 0, y: 30 }}
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.95, opacity: 0, y: 30 }}
-            className="relative w-full lg:w-[60vw] max-w-5xl max-h-[85vh] bg-black/95 border border-jarvis-orange clip-hex overflow-y-auto p-6 md:p-12 shadow-[0_0_80px_rgba(255,69,0,0.2)] custom-scrollbar"
+            className="relative w-full lg:w-[60vw] max-w-5xl max-h-[90vh] bg-black/95 border border-jarvis-orange clip-hex overflow-y-auto p-6 md:p-12 shadow-[0_0_80px_rgba(255,69,0,0.2)] custom-scrollbar"
           >
             {/* Close Button */}
             <button 
@@ -77,7 +94,7 @@ export const LeadForm: React.FC = () => {
                   <h2 className="text-xl md:text-3xl lg:text-4xl font-black text-white tracking-tighter uppercase font-mono leading-tight">
                     {t('form.title')}
                   </h2>
-                  <p className="text-jarvis-orange font-mono text-[9px] md:text-[10px] mt-2 uppercase tracking-[0.2em] opacity-70">
+                  <p className="text-jarvis-orange font-mono text-[9px] md:text-[10px] mt-2 uppercase tracking-[0.2em] opacity-70 font-bold">
                     Awaiting Handshake Protocol...
                   </p>
                 </div>
@@ -89,123 +106,120 @@ export const LeadForm: React.FC = () => {
                     <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.identity_header')}</h3>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
-                    <div className="space-y-1 md:space-y-2">
-                      <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.name')}</label>
+                    <div className="space-y-2">
+                      <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.name')}</label>
                       <input required type="text" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
-                    <div className="space-y-1 md:space-y-2">
-                      <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.email')}</label>
+                    <div className="space-y-2">
+                      <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.email')}</label>
                       <input required type="email" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
-                    <div className="space-y-1 md:space-y-2">
-                      <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.company')}</label>
+                    <div className="space-y-2">
+                      <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.company')}</label>
                       <input required type="text" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
-                    <div className="space-y-1 md:space-y-2">
-                      <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.phone')}</label>
+                    <div className="space-y-2">
+                      <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.phone')}</label>
                       <input required type="tel" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
                   </div>
                 </div>
 
-                {/* Section B: Target Sector Grid */}
+                {/* Section B: Sector Selection Grid */}
                 <div className="space-y-4 md:space-y-6">
                   <div className="flex items-center gap-3">
                     <div className="w-1.5 h-1.5 bg-jarvis-orange rounded-full animate-pulse"></div>
                     <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.sector_header')}</h3>
                   </div>
-                  <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-7 gap-2 md:gap-3">
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-3">
                     {SECTORS.map((sector) => (
                       <button
                         key={sector.id}
                         type="button"
                         onClick={() => setSelectedSector(sector.id)}
                         className={`
-                          group p-3 md:p-4 border transition-all flex flex-col items-center justify-center gap-2 h-24 md:h-28
+                          group p-3 border transition-all flex items-center justify-center h-16 md:h-20
                           ${selectedSector === sector.id 
-                            ? 'bg-jarvis-orange/20 border-jarvis-orange shadow-[0_0_20px_rgba(255,69,0,0.1)]' 
-                            : 'bg-black/50 border-white/10 hover:border-jarvis-orange/50'}
+                            ? 'bg-jarvis-orange text-black border-jarvis-orange font-black shadow-[0_0_20px_rgba(255,69,0,0.3)]' 
+                            : 'bg-black/50 border-white/10 text-gray-400 hover:border-jarvis-orange/50 hover:text-white'}
                         `}
                       >
-                        <sector.icon className={`w-5 h-5 md:w-6 md:h-6 ${selectedSector === sector.id ? 'text-jarvis-orange' : 'text-gray-500 group-hover:text-jarvis-orange'}`} />
-                        <span className={`text-[7px] md:text-[8px] font-mono uppercase tracking-tighter text-center leading-none ${selectedSector === sector.id ? 'text-white' : 'text-gray-600'}`}>
-                          {t(`services.${sector.id}.title`)}
+                        <span className="text-[9px] md:text-[10px] font-mono uppercase tracking-tighter text-center leading-none font-bold">
+                          {t(sector.label)}
                         </span>
                       </button>
                     ))}
                   </div>
                 </div>
 
-                {/* Section C: Conditional Parameters */}
-                <AnimatePresence>
-                  {showOperationalParams && (
+                {/* Section C: Conditional Sub-System Selection */}
+                <AnimatePresence mode="wait">
+                  {selectedSector && selectedSector !== 'custom' && (
                     <motion.div 
-                      initial={{ height: 0, opacity: 0 }}
-                      animate={{ height: 'auto', opacity: 1 }}
-                      exit={{ height: 0, opacity: 0 }}
-                      className="overflow-hidden"
+                      key="sub-system-selector"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="space-y-4 md:space-y-6 overflow-hidden"
                     >
-                      <div className="space-y-4 md:space-y-6 pt-4 border-t border-white/5">
-                        <div className="flex items-center gap-3">
-                          <div className="w-1.5 h-1.5 bg-jarvis-orange rounded-full animate-pulse"></div>
-                          <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.ops_header')}</h3>
-                        </div>
-                        <div className="grid grid-cols-1 gap-4 md:gap-6">
-                          <div className="space-y-1 md:space-y-2">
-                            <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.workflow_desc')}</label>
-                            <textarea required className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors min-h-[80px] md:min-h-[100px] resize-none" />
-                          </div>
-                          <div className="space-y-1 md:space-y-2">
-                            <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.stack')}</label>
-                            <input required type="text" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
+                      <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                        <div className="w-1.5 h-1.5 bg-jarvis-orange rounded-full"></div>
+                        <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.ops_header')}</h3>
+                      </div>
+                      <div className="space-y-2">
+                        <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.system_query')}</label>
+                        <div className="relative">
+                          <select 
+                            required 
+                            value={subSystem}
+                            onChange={(e) => setSubSystem(e.target.value)}
+                            className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors appearance-none cursor-pointer pr-10"
+                          >
+                            <option value="" disabled>{t('form.system_query')}</option>
+                            {SUB_SYSTEMS[selectedSector].map((opt) => (
+                              <option key={opt} value={opt}>{t(opt)}</option>
+                            ))}
+                          </select>
+                          <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-jarvis-orange">
+                            <ChevronDown className="w-5 h-5" />
                           </div>
                         </div>
                       </div>
                     </motion.div>
                   )}
-                </AnimatePresence>
 
-                {/* Section D: Recon */}
-                <div className="space-y-4 md:space-y-6">
-                  <div className="flex items-center gap-3">
-                    <div className="w-1.5 h-1.5 bg-jarvis-orange rounded-full animate-pulse"></div>
-                    <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.recon_header')}</h3>
-                  </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-8 items-end">
-                    <div className="space-y-1 md:space-y-2">
-                      <label className="text-[9px] font-mono text-gray-500 uppercase">{t('form.data_volume')}</label>
-                      <div className="relative">
-                        <select required className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors appearance-none cursor-pointer pr-10">
-                          <option value="low">{t('form.vol_low')}</option>
-                          <option value="med">{t('form.vol_med')}</option>
-                          <option value="enterprise">{t('form.vol_ent')}</option>
-                        </select>
-                        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-gray-500">
-                          <Scaling className="w-4 h-4" />
-                        </div>
+                  {selectedSector === 'custom' && (
+                    <motion.div 
+                      key="custom-description"
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="space-y-4 md:space-y-6 overflow-hidden"
+                    >
+                      <div className="flex items-center gap-3 pt-4 border-t border-white/5">
+                        <div className="w-1.5 h-1.5 bg-jarvis-orange rounded-full"></div>
+                        <h3 className="text-[10px] md:text-xs font-mono text-gray-400 uppercase tracking-widest">{t('form.ops_header')}</h3>
                       </div>
-                    </div>
-                    <div className="pb-1 md:pb-3">
-                      <label className="flex items-center gap-3 cursor-pointer group">
-                        <div className="relative w-5 h-5 border border-white/20 group-hover:border-jarvis-orange transition-all">
-                           <input type="checkbox" className="peer absolute inset-0 opacity-0 cursor-pointer z-10" />
-                           <div className="absolute inset-1 bg-jarvis-orange opacity-0 peer-checked:opacity-100 transition-opacity"></div>
-                        </div>
-                        <span className="text-[9px] md:text-[10px] font-mono text-gray-400 uppercase tracking-wider group-hover:text-white transition-colors">
-                          {t('form.nda')}
-                        </span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
+                      <div className="space-y-2">
+                        <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.custom_desc')}</label>
+                        <textarea 
+                          required 
+                          value={customDescription}
+                          onChange={(e) => setCustomDescription(e.target.value)}
+                          className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors min-h-[120px] md:min-h-[150px] resize-none" 
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
 
                 {/* Submit Action */}
                 <button 
                   type="submit"
-                  disabled={!selectedSector}
+                  disabled={!selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)}
                   className={`
                     w-full py-4 md:py-6 bg-jarvis-orange text-black font-mono font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] transition-all
-                    ${!selectedSector ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
+                    ${(!selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
                   `}
                 >
                   {t('form.submit')}
@@ -227,7 +241,7 @@ export const LeadForm: React.FC = () => {
                   <p className="text-gray-400 font-mono text-[11px] md:text-sm leading-relaxed max-w-md mx-auto">
                     {t('form.success_body')}
                   </p>
-                  <p className="text-jarvis-orange font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] animate-pulse">
+                  <p className="text-jarvis-orange font-mono text-[9px] md:text-[10px] uppercase tracking-[0.2em] animate-pulse font-bold">
                     Handshake verified. Uplink active.
                   </p>
                 </div>
@@ -239,9 +253,6 @@ export const LeadForm: React.FC = () => {
                 </button>
               </motion.div>
             )}
-
-            {/* Background Decoration */}
-            <div className="absolute -bottom-20 -right-20 w-48 h-48 md:w-64 md:h-64 bg-jarvis-orange/5 rounded-full blur-[100px] pointer-events-none"></div>
           </motion.div>
         </motion.div>
       )}

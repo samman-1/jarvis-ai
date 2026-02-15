@@ -9,7 +9,7 @@ export const Hero: React.FC = () => {
   const systemStatus = t('hero.system_status');
   const parts = systemStatus.split(': ');
   const statusLabel = parts[0];
-  const statusValue = parts[1];
+  const statusValue = parts[1] || "";
 
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-20 pb-12 lg:pt-32">

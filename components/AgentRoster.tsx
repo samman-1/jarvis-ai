@@ -22,7 +22,7 @@ export const AgentRoster: React.FC = () => {
               <p className="text-jarvis-orange font-mono text-xs uppercase tracking-widest rtl:tracking-normal">{t('agents.subtitle')}</p>
            </div>
            <div className="hidden md:block font-mono text-xs text-gray-600 rtl:font-arabic">
-             {t('agents.sync')} <span className="animate-pulse text-green-500">{t('agents.online')}</span>
+             <span className="animate-pulse text-green-500">{t('agents.online')}</span>
            </div>
         </div>
 
@@ -36,10 +36,8 @@ export const AgentRoster: React.FC = () => {
               transition={{ delay: i * 0.1 }}
               className="bg-black border border-white/10 relative group overflow-hidden h-full flex flex-col"
             >
-              {/* Card Header Effect */}
               <div className="h-1 bg-gradient-to-r from-transparent via-jarvis-orange to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
 
-              {/* Image Container */}
               <div className="relative h-56 md:h-64 overflow-hidden border-b border-white/10 bg-[linear-gradient(135deg,#1a1a1a_0%,#000000_100%)] flex items-center justify-center">
                 <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-10">
                   {agentIcons[agent.id]}
@@ -51,29 +49,21 @@ export const AgentRoster: React.FC = () => {
                   src={agent.image} 
                   alt={agent.name} 
                   className="w-full h-full object-cover filter grayscale group-hover:grayscale-0 group-hover:scale-110 transition-all duration-700 relative z-0"
-                  onLoad={(e) => {
-                    (e.target as HTMLImageElement).classList.remove('opacity-0');
-                  }}
-                  onError={(e) => {
-                    (e.target as HTMLImageElement).style.display = 'none';
-                  }}
                 />
               </div>
 
-              {/* Content */}
               <div className="p-6 flex-grow flex flex-col">
                 <h3 className="text-xl font-bold text-white mb-1 uppercase tracking-wider">{t(`agents.${agent.id}.name`)}</h3>
-                <p className="text-sm text-gray-500 mb-6 font-mono border-b border-dashed border-white/10 pb-4 rtl:font-arabic">{t(`agents.${agent.id}.role`)}</p>
+                <p className="text-sm text-gray-400 mb-6 font-mono border-b border-dashed border-white/10 pb-4 rtl:font-arabic leading-relaxed">{t(`agents.${agent.id}.role`)}</p>
                 
                 <div className="flex justify-between items-center mt-auto">
                    <div className="text-xs text-gray-400">
-                      <span className="block text-[10px] text-gray-600 uppercase rtl:font-arabic">{t('agents.specialty')}</span>
-                      <span className="rtl:font-arabic font-bold">{t(`agents.${agent.id}.spec`)}</span>
+                      <span className="block text-[10px] text-white font-bold uppercase rtl:font-arabic mb-1">{t('agents.specialty')}</span>
+                      <span className="rtl:font-arabic font-bold text-jarvis-orange uppercase tracking-widest">{t(`agents.${agent.id}.spec`)}</span>
                    </div>
                 </div>
               </div>
 
-              {/* Corner Accents */}
               <div className="absolute top-2 right-2 rtl:right-auto rtl:left-2 w-2 h-2 border-t border-r rtl:border-r-0 rtl:border-l border-jarvis-orange opacity-50"></div>
               <div className="absolute bottom-2 left-2 rtl:left-auto rtl:right-2 w-2 h-2 border-b border-l rtl:border-l-0 rtl:border-r border-jarvis-orange opacity-50"></div>
             </motion.div>

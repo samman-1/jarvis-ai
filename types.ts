@@ -41,4 +41,7 @@ export interface LanguageContextType {
   isLeadFormOpen: boolean;
   openLeadForm: () => void;
   closeLeadForm: () => void;
+  activeLegalModal: 'privacy' | 'terms' | null;
+  openLegalModal: (type: 'privacy' | 'terms') => void;
+  closeLegalModal: () => void;
 }

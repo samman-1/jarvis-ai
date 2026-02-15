@@ -52,7 +52,7 @@ export const AGENTS: AgentProfile[] = [
     role: 'Revenue Operations',
     specialty: 'Quotes 24/7',
     clearanceLevel: 'L5',
-    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2070&auto=format&fit=crop' // 3D Abstract Tech
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?q=80&w=2070&auto=format&fit=crop'
   },
   {
     id: 'a2',
@@ -60,7 +60,6 @@ export const AGENTS: AgentProfile[] = [
     role: 'Logistics',
     specialty: 'Files Paperwork',
     clearanceLevel: 'L4',
-    // High-contrast futuristic data center image to fix the "black box" issue
     image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=2070&auto=format&fit=crop' 
   },
   {
@@ -69,39 +68,45 @@ export const AGENTS: AgentProfile[] = [
     role: 'Finance Audit',
     specialty: 'Financial Auditing',
     clearanceLevel: 'L5',
-    image: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=2070&auto=format&fit=crop' // 3D Digital Coin
+    image: 'https://images.unsplash.com/photo-1642104704074-907c0698cbd9?q=80&w=2070&auto=format&fit=crop'
   }
 ];
 
 export const INDUSTRIES: Industry[] = [
   { 
-    id: 'i3', // MONEY
-    name: 'Money', 
+    id: 'i3',
+    name: 'FINANCE', 
     detail: 'High-frequency reporting, fraud detection, and autonomous ledger management.',
-    solutions: ['Security', 'Accounting', 'Checking']
+    solutions: ['Smart Auditing', 'Cash Flow Alerts', 'Expense Tracking']
   },
   { 
-    id: 'i2', // HEALTH
-    name: 'Health', 
+    id: 'i2',
+    name: 'HEALTHCARE', 
     detail: 'Automated patient intake, billing reconciliation, and compliance auditing.',
-    solutions: ['Billing', 'Rules', 'Check-in']
+    solutions: ['Patient Records', '24/7 Support', 'Billing Systems']
   },
   { 
-    id: 'i1', // SHIPPING
-    name: 'Shipping', 
+    id: 'i1',
+    name: 'SUPPLY CHAIN', 
     detail: 'No room for human error in supply chains. Real-time route optimization.',
-    solutions: ['Fast Routes', 'Stock Control', 'Truck Ops']
+    solutions: ['Live Tracking', 'Stock Control', 'Trip Planner']
   },
   { 
-    id: 'i5', // ONLINE SHOP
-    name: 'Online Shop', 
+    id: 'i5',
+    name: 'E-COMMERCE', 
     detail: 'Dynamic pricing engines and customer service autonomy.',
-    solutions: ['Pricing', 'Support', 'Returns']
+    solutions: ['Customer Support', 'Returns & Refund Automation', 'Dynamic Pricing']
   },
   { 
-    id: 'i4', // PROPERTY
-    name: 'Property', 
+    id: 'i4',
+    name: 'REAL ESTATE', 
     detail: 'Automated property management workflows and tenant screening protocols.',
-    solutions: ['Choosing', 'Rent', 'Fixing']
+    solutions: ['Lead Qualification', 'Automated Follow-Ups', 'Document Management']
+  },
+  { 
+    id: 'i6',
+    name: 'HUMAN RESOURCES', 
+    detail: 'Streamlined personnel management and automated administrative logic.',
+    solutions: ['Hiring Systems', 'Auto-Payroll', 'Staff Onboarding']
   },
 ];

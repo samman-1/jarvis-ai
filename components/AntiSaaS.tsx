@@ -4,7 +4,7 @@ import { GlitchText } from './ui/GlitchText';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const AntiSaaS: React.FC = () => {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
 
   return (
     <section id="protocol" className="relative py-16 lg:py-24 bg-background border-b border-white/5 overflow-hidden">
@@ -13,7 +13,7 @@ export const AntiSaaS: React.FC = () => {
 
       <div className="max-w-7xl mx-auto px-4 md:px-6 mobile-container flex flex-col lg:flex-row gap-12 lg:gap-16 items-center">
         {/* Left: Text */}
-        <div className="relative z-10 w-full lg:w-1/2 flex flex-col">
+        <div className="relative z-10 w-full lg:w-3/5 flex flex-col">
           <div className="flex items-center gap-2 mb-6">
              <div className="w-2 h-2 bg-jarvis-orange rounded-full animate-pulse"></div>
              <span className="text-jarvis-orange font-mono text-sm tracking-widest rtl:tracking-normal uppercase">{t('antisaas.label')}</span>
@@ -23,10 +23,15 @@ export const AntiSaaS: React.FC = () => {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="fluid-header-sub font-bold text-white mb-8 leading-tight rtl:leading-tight uppercase tracking-tight break-words w-full whitespace-normal"
+            className="fluid-header-sub font-bold text-white mb-8 leading-tight rtl:leading-tight uppercase tracking-tight break-words w-full max-w-4xl whitespace-normal"
           >
-            {t('antisaas.headline_start')} <span className="text-gray-500 line-through decoration-jarvis-orange">{t('antisaas.headline_time')}</span>
-            {t('antisaas.headline_middle')} <span className="text-jarvis-orange">{t('antisaas.headline_problems')}</span>.
+            {language === 'en' ? (
+              <>SAAS FORCES YOU TO <span className="line-through decoration-jarvis-orange decoration-4">ADAPT</span>.</>
+            ) : (
+              t('antisaas.headline_main')
+            )}
+            <br />
+            <span className="text-jarvis-orange">{t('antisaas.headline_sub')}</span>
           </motion.h2>
           
           <div className="space-y-6 text-gray-400 text-base md:text-lg border-l-2 rtl:border-l-0 rtl:border-r-2 border-jarvis-orange/20 pl-6 rtl:pl-0 rtl:pr-6 w-full max-w-full mr-0">
@@ -40,7 +45,7 @@ export const AntiSaaS: React.FC = () => {
         </div>
 
         {/* Right: Abstract 3D/Visual Element */}
-        <div className="relative h-[300px] md:h-[400px] w-full lg:w-1/2 flex items-center justify-center mt-8 lg:mt-0">
+        <div className="relative h-[300px] md:h-[400px] w-full lg:w-2/5 flex items-center justify-center mt-8 lg:mt-0">
            <div className="relative w-48 h-48 md:w-80 md:h-80">
               <motion.div 
                 animate={{ rotate: 360 }}

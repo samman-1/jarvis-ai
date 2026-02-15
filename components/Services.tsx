@@ -18,10 +18,14 @@ export const Services: React.FC = () => {
   const { t } = useLanguage();
 
   return (
-    <section id="how-we-work" className="py-16 lg:py-24 bg-background relative border-b border-white/5">
+    <section id="architecture" className="py-16 lg:py-24 bg-background relative border-b border-white/5">
        <div className="max-w-7xl mx-auto px-6 mb-12 lg:mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 uppercase tracking-tight">{t('services.title')} <span className="text-jarvis-orange">V.2.0</span></h2>
-          <p className="font-mono text-gray-500 uppercase tracking-widest rtl:tracking-normal text-xs md:text-sm">{t('services.subtitle')}</p>
+          <h2 className="text-3xl md:text-5xl font-bold text-white mb-4 uppercase tracking-tight leading-tight">
+            {t('services.title')}
+          </h2>
+          <p className="font-mono text-gray-500 uppercase tracking-widest rtl:tracking-normal text-xs md:text-sm">
+            {t('services.subtitle')}
+          </p>
        </div>
 
        <div className="max-w-7xl mx-auto px-6">
@@ -48,9 +52,15 @@ export const Services: React.FC = () => {
                     {icons[service.icon]}
                   </div>
                   
-                  <h3 className="text-lg md:text-xl font-bold text-white mb-4 group-hover:text-jarvis-orange transition-colors uppercase tracking-wider">
-                    {t(`services.${service.id}.title`)}
-                  </h3>
+                  <div className="mb-4">
+                    <span className="block text-[10px] text-gray-500 font-mono uppercase tracking-[0.2em] mb-1 group-hover:text-jarvis-orange/70 transition-colors">
+                      {t(`services.${service.id}.subtitle`)}
+                    </span>
+                    <h3 className="text-lg md:text-xl font-bold text-white group-hover:text-jarvis-orange transition-colors uppercase tracking-wider leading-tight">
+                      {t(`services.${service.id}.title`)}
+                    </h3>
+                  </div>
+                  
                   <p className="text-gray-400 font-mono rtl:font-arabic text-sm leading-relaxed border-t border-white/5 pt-4">
                     {t(`services.${service.id}.desc`)}
                   </p>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Navbar } from './components/Navbar';
 import { Hero } from './components/Hero';
 import { AntiSaaS } from './components/AntiSaaS';
+import { Academy } from './components/Academy';
 import { Services } from './components/Services';
 import { AgentRoster } from './components/AgentRoster';
 import { Industries } from './components/Industries';
@@ -9,6 +10,7 @@ import { OriginCode } from './components/OriginCode';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
 import { LeadForm } from './components/LeadForm';
+import { LegalModal } from './components/LegalModal';
 import { LanguageProvider } from './contexts/LanguageContext';
 
 function AppContent() {
@@ -17,9 +19,11 @@ function AppContent() {
       <CustomCursor />
       <Navbar />
       <LeadForm />
+      <LegalModal />
       <main>
         <Hero />
         <AntiSaaS />
+        <Academy />
         <Services />
         <AgentRoster />
         <Industries />

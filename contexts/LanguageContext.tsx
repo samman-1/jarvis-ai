@@ -8,6 +8,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [language, setLanguage] = useState<Language>('en');
   const [direction, setDirection] = useState<Direction>('ltr');
   const [isLeadFormOpen, setIsLeadFormOpen] = useState(false);
+  const [activeLegalModal, setActiveLegalModal] = useState<'privacy' | 'terms' | null>(null);
 
   useEffect(() => {
     // Set direction based on language
@@ -23,6 +24,9 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
 
   const openLeadForm = () => setIsLeadFormOpen(true);
   const closeLeadForm = () => setIsLeadFormOpen(false);
+
+  const openLegalModal = (type: 'privacy' | 'terms') => setActiveLegalModal(type);
+  const closeLegalModal = () => setActiveLegalModal(null);
 
   const t = (key: string): string => {
     if (!translations[key]) {
@@ -40,7 +44,10 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       t, 
       isLeadFormOpen, 
       openLeadForm, 
-      closeLeadForm 
+      closeLeadForm,
+      activeLegalModal,
+      openLegalModal,
+      closeLegalModal
     }}>
       {children}
     </LanguageContext.Provider>

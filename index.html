@@ -2,7 +2,7 @@
 <html lang="en" class="dark" style="scroll-behavior: smooth;">
   <head>
     <meta charset="utf-8" />
-    <link rel="icon" href="https://fav.farm/⬢" />
+    <link rel="icon" type="image/x-icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="theme-color" content="#050505" />
     <title>JARVIS AI | Engineer Autonomy</title>
@@ -53,7 +53,6 @@
         color: #E0E0E0;
         overflow-x: hidden;
         word-break: break-word;
-        hyphens: auto;
       }
       .honeycomb-grid {
         background-image: 
@@ -95,13 +94,22 @@
         font-family: 'IBM Plex Sans Arabic', monospace; 
       }
 
+      /* Heading Typography Rules */
+      h1, h2, h3, h4, h5, h6, .fluid-header, .fluid-header-sub {
+        -webkit-hyphens: none !important;
+        -ms-hyphens: none !important;
+        hyphens: none !important;
+        word-break: normal !important;
+        overflow-wrap: break-word;
+      }
+
       /* Fluid Typography Helpers */
       .fluid-header {
-        font-size: clamp(28px, 6vw, 60px);
+        font-size: clamp(32px, 8vw, 60px);
         line-height: 1.1;
       }
       .fluid-header-sub {
-        font-size: clamp(24px, 5vw, 48px);
+        font-size: clamp(24px, 6vw, 48px);
         line-height: 1.1;
       }
       
@@ -109,6 +117,12 @@
         .mobile-container {
           padding-left: 15px !important;
           padding-right: 15px !important;
+        }
+        .fluid-header {
+          font-size: 2.5rem; /* ~40px */
+        }
+        .fluid-header-sub {
+          font-size: 1.8rem; /* ~28px */
         }
       }
     </style>
