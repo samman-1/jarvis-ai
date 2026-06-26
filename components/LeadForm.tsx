@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { translations } from '../utils/translations';
+
+// n8n webhook the form posts to. Set VITE_N8N_WEBHOOK_URL in .env.local (dev) and in Vercel (prod).
+const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined;
 
 const SECTORS = [
   { id: 'finance', label: 'sector.finance' },
@@ -23,15 +27,78 @@ const SUB_SYSTEMS: Record<string, string[]> = {
 };
 
 export const LeadForm: React.FC = () => {
-  const { t, isLeadFormOpen, closeLeadForm } = useLanguage();
+  const { t, language, isLeadFormOpen, closeLeadForm } = useLanguage();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [selectedSector, setSelectedSector] = useState<string | null>(null);
   const [subSystem, setSubSystem] = useState<string>('');
   const [customDescription, setCustomDescription] = useState<string>('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Identity fields
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [company, setCompany] = useState('');
+  const [phone, setPhone] = useState('');
+  // Honeypot (bots fill this; humans never see it)
+  const [honeypot, setHoneypot] = useState('');
+  // Submission status
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitted(true);
+    setErrorMsg('');
+
+    // Silently absorb bot submissions (honeypot filled) — show success, send nothing.
+    if (honeypot) {
+      setIsSubmitted(true);
+      return;
+    }
+
+    if (!WEBHOOK_URL) {
+      console.error('VITE_N8N_WEBHOOK_URL is not configured.');
+      setErrorMsg(t('form.error'));
+      return;
+    }
+
+    // Resolve human-readable English labels so the team notification isn't raw keys.
+    const sectorLabel = selectedSector
+      ? translations[`sector.${selectedSector}`]?.en ?? selectedSector
+      : '';
+    const systemLabel =
+      selectedSector === 'custom'
+        ? customDescription
+        : subSystem
+        ? translations[subSystem]?.en ?? subSystem
+        : '';
+
+    const payload = {
+      name,
+      email,
+      company,
+      phone,
+      sector: sectorLabel,
+      sectorId: selectedSector,
+      system: systemLabel,
+      isCustom: selectedSector === 'custom',
+      language,
+      company_website: honeypot, // honeypot passthrough for n8n-side check
+    };
+
+    try {
+      setIsSubmitting(true);
+      const res = await fetch(WEBHOOK_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      if (!res.ok) throw new Error(`Request failed with status ${res.status}`);
+      setIsSubmitted(true);
+    } catch (err) {
+      console.error('Lead submission failed:', err);
+      setErrorMsg(t('form.error'));
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleClose = () => {
@@ -41,6 +108,13 @@ export const LeadForm: React.FC = () => {
       setSelectedSector(null);
       setSubSystem('');
       setCustomDescription('');
+      setName('');
+      setEmail('');
+      setCompany('');
+      setPhone('');
+      setHoneypot('');
+      setErrorMsg('');
+      setIsSubmitting(false);
     }, 300);
   };
 
@@ -89,6 +163,17 @@ export const LeadForm: React.FC = () => {
 
             {!isSubmitted ? (
               <form onSubmit={handleSubmit} className="space-y-8 md:space-y-10 pb-12">
+                {/* Honeypot — hidden from real users, catches bots */}
+                <input
+                  type="text"
+                  name="company_website"
+                  value={honeypot}
+                  onChange={(e) => setHoneypot(e.target.value)}
+                  tabIndex={-1}
+                  autoComplete="off"
+                  aria-hidden="true"
+                  className="absolute left-[-9999px] top-0 h-0 w-0 opacity-0"
+                />
                 {/* Header */}
                 <div className="border-b border-white/10 pb-6 pr-10">
                   <h2 className="text-xl md:text-3xl lg:text-4xl font-black text-white tracking-tighter uppercase font-mono leading-tight">
@@ -108,19 +193,19 @@ export const LeadForm: React.FC = () => {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
                     <div className="space-y-2">
                       <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.name')}</label>
-                      <input required type="text" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
+                      <input required type="text" value={name} onChange={(e) => setName(e.target.value)} autoComplete="name" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.email')}</label>
-                      <input required type="email" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
+                      <input required type="email" value={email} onChange={(e) => setEmail(e.target.value)} autoComplete="email" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.company')}</label>
-                      <input required type="text" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
+                      <input required type="text" value={company} onChange={(e) => setCompany(e.target.value)} autoComplete="organization" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
                     <div className="space-y-2">
                       <label className="text-sm md:text-base font-bold text-gray-300 uppercase tracking-tight">{t('form.phone')}</label>
-                      <input required type="tel" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
+                      <input required type="tel" value={phone} onChange={(e) => setPhone(e.target.value)} autoComplete="tel" className="w-full bg-tech-gray/50 border border-white/10 px-4 py-3 md:py-4 text-white font-mono text-sm focus:border-jarvis-orange outline-none transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -213,16 +298,23 @@ export const LeadForm: React.FC = () => {
                   )}
                 </AnimatePresence>
 
+                {/* Error message */}
+                {errorMsg && (
+                  <p className="text-red-500 font-mono text-[10px] md:text-xs uppercase tracking-widest text-center animate-pulse">
+                    {errorMsg}
+                  </p>
+                )}
+
                 {/* Submit Action */}
-                <button 
+                <button
                   type="submit"
-                  disabled={!selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)}
+                  disabled={isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)}
                   className={`
                     w-full py-4 md:py-6 bg-jarvis-orange text-black font-mono font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] transition-all
-                    ${(!selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
+                    ${(isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
                   `}
                 >
-                  {t('form.submit')}
+                  {isSubmitting ? t('form.submitting') : t('form.submit')}
                 </button>
               </form>
             ) : (

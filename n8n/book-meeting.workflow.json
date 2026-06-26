@@ -1,0 +1,160 @@
+{
+  "name": "Jarvis - Book a Meeting",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "book-meeting",
+        "responseMode": "responseNode",
+        "options": {
+          "allowedOrigins": "https://jarvisksa.com,https://www.jarvisksa.com,http://localhost:3000"
+        }
+      },
+      "id": "node-webhook",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [-360, 300],
+      "webhookId": "book-meeting"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": true, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-honeypot",
+              "leftValue": "={{ $('Webhook').item.json.body.company_website }}",
+              "rightValue": "",
+              "operator": { "type": "string", "operation": "empty", "singleValue": true }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if-honeypot",
+      "name": "Is Human? (honeypot empty)",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [-140, 300]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "=New Meeting Request — {{ $('Webhook').item.json.body.name }} ({{ $('Webhook').item.json.body.company }})",
+        "bodyContent": "=<h2>New Book-a-Meeting Request</h2>\n<table cellpadding=\"6\" style=\"border-collapse:collapse;font-family:Arial,sans-serif;font-size:14px\">\n  <tr><td><b>Name</b></td><td>{{ $('Webhook').item.json.body.name }}</td></tr>\n  <tr><td><b>Email</b></td><td>{{ $('Webhook').item.json.body.email }}</td></tr>\n  <tr><td><b>Company</b></td><td>{{ $('Webhook').item.json.body.company }}</td></tr>\n  <tr><td><b>Phone</b></td><td>{{ $('Webhook').item.json.body.phone }}</td></tr>\n  <tr><td><b>Sector</b></td><td>{{ $('Webhook').item.json.body.sector }}</td></tr>\n  <tr><td><b>System Needed</b></td><td>{{ $('Webhook').item.json.body.system }}</td></tr>\n  <tr><td><b>Site Language</b></td><td>{{ $('Webhook').item.json.body.language }}</td></tr>\n</table>\n<p style=\"color:#888;font-size:12px\">Reply directly to this email to reach the lead.</p>",
+        "toRecipients": "partners@jarvisksa.com",
+        "additionalFields": {
+          "bodyContentType": "html",
+          "replyTo": "={{ $('Webhook').item.json.body.email }}"
+        }
+      },
+      "id": "node-notify-team",
+      "name": "Email Team (partners@)",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [120, 200],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": { "caseSensitive": false, "leftValue": "", "typeValidation": "loose" },
+          "conditions": [
+            {
+              "id": "cond-lang-ar",
+              "leftValue": "={{ $('Webhook').item.json.body.language }}",
+              "rightValue": "ar",
+              "operator": { "type": "string", "operation": "equals" }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if-lang",
+      "name": "Language == AR?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [340, 200]
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "=شكراً لتواصلك مع جارفيس",
+        "bodyContent": "=<div dir=\"rtl\" style=\"font-family:Arial,sans-serif;font-size:15px;line-height:1.7\">\n  <p>مرحباً {{ $('Webhook').item.json.body.name }}،</p>\n  <p>شكراً لتواصلك مع <b>جارفيس</b>. لقد استلمنا طلبك وفريقنا الهندسي يقوم بمراجعته الآن.</p>\n  <p>سنتواصل معك قريباً لتحديد موعد اجتماعك.</p>\n  <p>— فريق جارفيس<br/>partners@jarvisksa.com</p>\n</div>",
+        "toRecipients": "={{ $('Webhook').item.json.body.email }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "node-thanks-ar",
+      "name": "Thank You (Arabic)",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [580, 100],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "resource": "message",
+        "operation": "send",
+        "subject": "=Thank you for contacting JARVIS AI",
+        "bodyContent": "=<div style=\"font-family:Arial,sans-serif;font-size:15px;line-height:1.7\">\n  <p>Hi {{ $('Webhook').item.json.body.name }},</p>\n  <p>Thank you for reaching out to <b>JARVIS AI</b>. We've received your request and our engineering team is reviewing it now.</p>\n  <p>We'll be in touch shortly to schedule your meeting.</p>\n  <p>— The JARVIS AI Team<br/>partners@jarvisksa.com</p>\n</div>",
+        "toRecipients": "={{ $('Webhook').item.json.body.email }}",
+        "additionalFields": {
+          "bodyContentType": "html"
+        }
+      },
+      "id": "node-thanks-en",
+      "name": "Thank You (English)",
+      "type": "n8n-nodes-base.microsoftOutlook",
+      "typeVersion": 2,
+      "position": [580, 300],
+      "credentials": {}
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { \"ok\": true } }}",
+        "options": {}
+      },
+      "id": "node-respond",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [820, 300]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Is Human? (honeypot empty)", "type": "main", "index": 0 }]]
+    },
+    "Is Human? (honeypot empty)": {
+      "main": [
+        [{ "node": "Email Team (partners@)", "type": "main", "index": 0 }],
+        [{ "node": "Respond OK", "type": "main", "index": 0 }]
+      ]
+    },
+    "Email Team (partners@)": {
+      "main": [[{ "node": "Language == AR?", "type": "main", "index": 0 }]]
+    },
+    "Language == AR?": {
+      "main": [
+        [{ "node": "Thank You (Arabic)", "type": "main", "index": 0 }],
+        [{ "node": "Thank You (English)", "type": "main", "index": 0 }]
+      ]
+    },
+    "Thank You (Arabic)": {
+      "main": [[{ "node": "Respond OK", "type": "main", "index": 0 }]]
+    },
+    "Thank You (English)": {
+      "main": [[{ "node": "Respond OK", "type": "main", "index": 0 }]]
+    }
+  },
+  "settings": { "executionOrder": "v1" },
+  "active": false
+}

@@ -160,6 +160,8 @@ export const translations: Translations = {
   'form.phone': { en: 'PHONE NUMBER', ar: 'رقم الهاتف' },
   'form.sector_header': { en: 'SELECT TARGET SECTOR', ar: 'اختر القطاع المستهدف' },
   'form.submit': { en: '[ TRANSMIT REQUEST ]', ar: '[ إرسال الطلب ]' },
+  'form.submitting': { en: '[ TRANSMITTING... ]', ar: '[ جارٍ الإرسال... ]' },
+  'form.error': { en: 'TRANSMISSION FAILED. PLEASE RETRY.', ar: 'فشل الإرسال. الرجاء المحاولة مرة أخرى.' },
   'form.success': { en: 'REQUEST AUTHENTICATED.', ar: 'تم توثيق الطلب.' },
   'form.success_body': { en: 'Our engineering team is analyzing your parameters. Standby for a priority email to schedule your virtual strategy briefing.', ar: 'فريقنا الهندسي يقوم بتحليل بياناتك حالياً. انتظر بريداً إلكترونياً لجدولة جلسة استراتيجية افتراضية.' },
   'form.close': { en: '[ CLOSE ]', ar: '[ إغلاق ]' },
