@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>JARVIS AI</title>
+<style>
+  body { margin:0; padding:0; }
+  a { text-decoration:none; }
+  @media only screen and (max-width:620px) {
+    .container { width:100% !important; }
+    .px { padding-left:22px !important; padding-right:22px !important; }
+    .h1 { font-size:27px !important; line-height:36px !important; }
+  }
+</style>
+</head>
+<body style="margin:0; padding:0; background:#050505;">
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#050505;" dir="rtl">
+  <tr><td align="center" style="padding:32px 16px;">
+
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="container" style="width:600px; max-width:600px; background:#0a0a0a; border:1px solid #1f1f1f;">
+      <tr><td style="height:4px; background:#FF4500; font-size:0; line-height:0;">&nbsp;</td></tr>
+
+      <tr><td style="padding:34px 40px 0 40px;" class="px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0"><tr>
+          <td align="right" style="font-family:Arial,Helvetica,sans-serif; font-weight:800; font-size:22px; letter-spacing:6px; color:#ffffff;">JARVIS</td>
+          <td align="left" style="font-family:'Courier New',Courier,monospace; font-size:10px; letter-spacing:1px; color:#FF4500;">[ بروتوكول الشراكة ]</td>
+        </tr></table>
+      </td></tr>
+
+      <tr><td style="padding:26px 40px 0 40px;" class="px">
+        <span style="font-family:Tahoma,Arial,sans-serif; font-size:12px; color:#22c55e;">&#9679;&nbsp; تم توثيق الطلب</span>
+      </td></tr>
+
+      <tr><td style="padding:12px 40px 0 40px;" class="px">
+        <h1 class="h1" style="margin:0; font-family:Tahoma,Arial,sans-serif; font-weight:800; font-size:32px; line-height:44px; color:#ffffff;">شكراً لك،<br>{{ $('Webhook').item.json.body.name }}</h1>
+      </td></tr>
+
+      <tr><td style="padding:20px 40px 0 40px; font-family:Tahoma,Arial,sans-serif; font-size:15px; line-height:28px; color:#b3b3b3;" class="px">
+        <p style="margin:0 0 16px 0;">لقد استلمنا طلبك، وفريقنا الهندسي يراجع تفاصيله الآن.</p>
+        <p style="margin:0;">سنتواصل معك قريباً لتحديد موعد جلستك الاستراتيجية. ترقّب بريداً ذا أولوية من فريقنا.</p>
+      </td></tr>
+
+      <tr><td style="padding:28px 40px 0 40px;" class="px">
+        <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#111111; border:1px solid #1f1f1f;">
+          <tr><td style="padding:18px 22px; font-family:Tahoma,Arial,sans-serif; font-size:13px; line-height:26px; color:#888888;">
+            <span style="color:#FF4500;">// ملخص الطلب</span><br>
+            <span style="color:#777777;">القطاع:</span> <span style="color:#ffffff;">{{ $('Webhook').item.json.body.sector }}</span><br>
+            <span style="color:#777777;">النظام:</span> <span style="color:#ffffff;">{{ $('Webhook').item.json.body.system }}</span>
+          </td></tr>
+        </table>
+      </td></tr>
+
+      <tr><td style="padding:28px 40px 0 40px;" class="px"><div style="height:1px; background:#1f1f1f; font-size:0; line-height:0;">&nbsp;</div></td></tr>
+
+      <tr><td style="padding:22px 40px 34px 40px; font-family:Tahoma,Arial,sans-serif; font-size:13px; line-height:24px; color:#888888;" class="px">
+        <strong style="color:#ffffff;">فريق جارفيس</strong><br>
+        جارفيس &mdash; بنية تشغيلية ذاتية<br>
+        <span style="color:#666666;">صُنع في السعودية. يُستخدم عالمياً.</span><br>
+        <a href="mailto:partners@jarvisksa.com" style="color:#FF4500;" dir="ltr">partners@jarvisksa.com</a>&nbsp; &middot; &nbsp;<a href="https://jarvisksa.com" style="color:#FF4500;" dir="ltr">jarvisksa.com</a>
+      </td></tr>
+    </table>
+
+    <table role="presentation" width="600" cellpadding="0" cellspacing="0" class="container" style="width:600px; max-width:600px;">
+      <tr><td align="center" style="padding:18px 16px; font-family:Tahoma,Arial,sans-serif; font-size:11px; color:#444444;">جارفيس &middot; كل شيء يعمل.</td></tr>
+    </table>
+
+  </td></tr>
+</table>
+</body>
+</html>

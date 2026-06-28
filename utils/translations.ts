@@ -128,6 +128,11 @@ export const translations: Translations = {
   'origin.chaos': { en: "We replace messy work with math. 100% Saudi Team. Big Goals.", ar: "نستبدل العمل العشوائي بالحسابات. فريق سعودي 100%. أهداف كبيرة." },
   'origin.vision': { en: "We are building the tech that runs the future economy.", ar: "نبني التقنية التي تدير اقتصاد المستقبل." },
 
+  // Clients
+  'clients.sub': { en: "TRUSTED PARTNERS", ar: "شركاء موثوقون" },
+  'clients.headline': { en: "COMPANIES RUNNING ON JARVIS", ar: "شركات تعمل بجارفيس" },
+  'clients.body': { en: "Real operations we engineer autonomy for.", ar: "عمليات حقيقية نهندس لها الاستقلالية." },
+
   // Footer
   'footer.headline': { en: "READY TO ARCHITECT", ar: "جاهز لتصميم" },
   'footer.manual': { en: "YOUR FUTURE SYSTEMS?", ar: "أنظمتك المستقبلية؟" },

@@ -7,6 +7,7 @@ import { Services } from './components/Services';
 import { AgentRoster } from './components/AgentRoster';
 import { Industries } from './components/Industries';
 import { OriginCode } from './components/OriginCode';
+import { Clients } from './components/Clients';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
 import { LeadForm } from './components/LeadForm';
@@ -28,6 +29,7 @@ function AppContent() {
         <AgentRoster />
         <Industries />
         <OriginCode />
+        <Clients />
       </main>
       <Footer />
     </div>
