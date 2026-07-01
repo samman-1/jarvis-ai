@@ -5,10 +5,12 @@ import { useLanguage } from '../contexts/LanguageContext';
 // Client logos live in /public/clients/ (served at /clients/*). Transparent PNGs.
 // imgClass tunes each logo's height so they read at a balanced optical size
 // (wide marks sit shorter; stacked marks sit taller) while staying center-aligned.
+// `nudge` optically re-centers marks whose visual weight isn't box-centered.
 const CLIENTS = [
-  { name: 'CADI', logo: '/clients/cadi.png', imgClass: 'max-h-[52px] md:max-h-[60px]' },
-  { name: 'Doccia', logo: '/clients/doccia.png', imgClass: 'max-h-[80px] md:max-h-[92px]' },
-  { name: 'Middle East Chef', logo: '/clients/mec.png', imgClass: 'max-h-[78px] md:max-h-[90px]' },
+  { name: 'CADI', logo: '/clients/cadi.png', imgClass: 'max-h-[52px] md:max-h-[60px]', nudge: '' },
+  { name: 'Doccia', logo: '/clients/doccia.png', imgClass: 'max-h-[80px] md:max-h-[92px]', nudge: '' },
+  { name: 'Middle East Chef', logo: '/clients/mec.png', imgClass: 'max-h-[78px] md:max-h-[90px]', nudge: '' },
+  { name: 'Sahb', logo: '/clients/sahb.png', imgClass: 'max-h-[46px] md:max-h-[54px]', nudge: 'translate-y-[7px] md:translate-y-[9px]' },
 ];
 
 export const Clients: React.FC = () => {
@@ -56,7 +58,7 @@ export const Clients: React.FC = () => {
                            opacity-50 grayscale transition-all duration-500 ease-out
                            group-hover:opacity-100 group-hover:grayscale-0 group-hover:scale-110
                            group-hover:brightness-110 group-hover:drop-shadow-[0_0_22px_rgba(255,69,0,0.45)]
-                           ${client.imgClass}`}
+                           ${client.imgClass} ${client.nudge}`}
               />
             </motion.div>
           ))}
