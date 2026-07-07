@@ -22,6 +22,71 @@
     },
     {
       "parameters": {
+        "method": "POST",
+        "url": "https://challenges.cloudflare.com/turnstile/v0/siteverify",
+        "sendBody": true,
+        "contentType": "form-urlencoded",
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "secret",
+              "value": "PASTE_YOUR_TURNSTILE_SECRET_KEY"
+            },
+            {
+              "name": "response",
+              "value": "={{ $json.body.turnstileToken || '' }}"
+            },
+            {
+              "name": "remoteip",
+              "value": "={{ $json.headers['cf-connecting-ip'] || $json.headers['x-forwarded-for'] || '' }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "node-verify-turnstile",
+      "name": "Verify Turnstile",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -140,
+        520
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "typeValidation": "loose"
+          },
+          "conditions": [
+            {
+              "id": "cond-turnstile-ok",
+              "leftValue": "={{ $json.success }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "node-if-turnstile",
+      "name": "Turnstile OK?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2,
+      "position": [
+        80,
+        520
+      ]
+    },
+    {
+      "parameters": {
         "conditions": {
           "options": {
             "caseSensitive": true,
@@ -170,7 +235,36 @@
       "main": [
         [
           {
+            "node": "Verify Turnstile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify Turnstile": {
+      "main": [
+        [
+          {
+            "node": "Turnstile OK?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Turnstile OK?": {
+      "main": [
+        [
+          {
             "node": "Is Human? (honeypot empty)",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Respond OK",
             "type": "main",
             "index": 0
           }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, ChevronDown } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
@@ -6,6 +6,22 @@ import { translations } from '../utils/translations';
 
 // n8n webhook the form posts to. Set VITE_N8N_WEBHOOK_URL in .env.local (dev) and in Vercel (prod).
 const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined;
+
+// Cloudflare Turnstile SITE key (public). If unset, the CAPTCHA is skipped and the
+// form behaves exactly as before — so this is safe to ship before the key is configured.
+const TURNSTILE_SITE_KEY = import.meta.env.VITE_TURNSTILE_SITE_KEY as string | undefined;
+const TURNSTILE_SCRIPT_ID = 'cf-turnstile-script';
+
+// Minimal typing for the Turnstile global injected by Cloudflare's script.
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (el: HTMLElement, opts: Record<string, unknown>) => string;
+      remove: (id: string) => void;
+      reset: (id?: string) => void;
+    };
+  }
+}
 
 const SECTORS = [
   { id: 'finance', label: 'sector.finance' },
@@ -40,9 +56,53 @@ export const LeadForm: React.FC = () => {
   const [phone, setPhone] = useState('');
   // Honeypot (bots fill this; humans never see it)
   const [honeypot, setHoneypot] = useState('');
+  // Cloudflare Turnstile token (only used when TURNSTILE_SITE_KEY is set)
+  const [turnstileToken, setTurnstileToken] = useState('');
+  const turnstileRef = useRef<HTMLDivElement | null>(null);
+  const turnstileWidgetId = useRef<string | null>(null);
   // Submission status
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
+
+  // Load + render the Turnstile widget while the form is open (no-op if no site key).
+  useEffect(() => {
+    if (!TURNSTILE_SITE_KEY || !isLeadFormOpen) return;
+
+    const renderWidget = () => {
+      const el = turnstileRef.current;
+      if (!el || !window.turnstile || turnstileWidgetId.current) return;
+      turnstileWidgetId.current = window.turnstile.render(el, {
+        sitekey: TURNSTILE_SITE_KEY,
+        theme: 'dark',
+        callback: (token: string) => setTurnstileToken(token),
+        'expired-callback': () => setTurnstileToken(''),
+        'error-callback': () => setTurnstileToken(''),
+      });
+    };
+
+    if (window.turnstile) {
+      renderWidget();
+    } else {
+      let script = document.getElementById(TURNSTILE_SCRIPT_ID) as HTMLScriptElement | null;
+      if (!script) {
+        script = document.createElement('script');
+        script.id = TURNSTILE_SCRIPT_ID;
+        script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js';
+        script.async = true;
+        script.defer = true;
+        document.head.appendChild(script);
+      }
+      script.addEventListener('load', renderWidget, { once: true });
+    }
+
+    return () => {
+      if (turnstileWidgetId.current && window.turnstile) {
+        try { window.turnstile.remove(turnstileWidgetId.current); } catch { /* already gone */ }
+      }
+      turnstileWidgetId.current = null;
+      setTurnstileToken('');
+    };
+  }, [isLeadFormOpen]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,6 +111,12 @@ export const LeadForm: React.FC = () => {
     // Silently absorb bot submissions (honeypot filled) — show success, send nothing.
     if (honeypot) {
       setIsSubmitted(true);
+      return;
+    }
+
+    // Require a Turnstile token only when the CAPTCHA is enabled.
+    if (TURNSTILE_SITE_KEY && !turnstileToken) {
+      setErrorMsg(t('form.error'));
       return;
     }
 
@@ -82,6 +148,7 @@ export const LeadForm: React.FC = () => {
       isCustom: selectedSector === 'custom',
       language,
       company_website: honeypot, // honeypot passthrough for n8n-side check
+      turnstileToken, // empty string when CAPTCHA disabled; verified server-side in n8n
     };
 
     try {
@@ -113,6 +180,7 @@ export const LeadForm: React.FC = () => {
       setCompany('');
       setPhone('');
       setHoneypot('');
+      setTurnstileToken('');
       setErrorMsg('');
       setIsSubmitting(false);
     }, 300);
@@ -305,13 +373,20 @@ export const LeadForm: React.FC = () => {
                   </p>
                 )}
 
+                {/* Cloudflare Turnstile — only rendered when a site key is configured */}
+                {TURNSTILE_SITE_KEY && (
+                  <div className="flex justify-center">
+                    <div ref={turnstileRef} />
+                  </div>
+                )}
+
                 {/* Submit Action */}
                 <button
                   type="submit"
-                  disabled={isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)}
+                  disabled={isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription) || (!!TURNSTILE_SITE_KEY && !turnstileToken)}
                   className={`
                     w-full py-4 md:py-6 bg-jarvis-orange text-black font-mono font-bold uppercase tracking-[0.2em] md:tracking-[0.4em] transition-all
-                    ${(isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription)) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
+                    ${(isSubmitting || !selectedSector || (selectedSector !== 'custom' && !subSystem) || (selectedSector === 'custom' && !customDescription) || (!!TURNSTILE_SITE_KEY && !turnstileToken)) ? 'opacity-50 cursor-not-allowed' : 'hover:bg-white hover:tracking-[0.3em] md:hover:tracking-[0.6em]'}
                   `}
                 >
                   {isSubmitting ? t('form.submitting') : t('form.submit')}

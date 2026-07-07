@@ -15,6 +15,11 @@ View your app in AI Studio: https://ai.studio/apps/drive/1J5ffvO8REqphzX_oGgp4mY
 
 1. Install dependencies:
    `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
+2. Copy [.env.example](.env.example) to `.env.local` and fill in the values
+   (at minimum `VITE_N8N_WEBHOOK_URL`). See [n8n/README.md](n8n/README.md) for the
+   contact-form backend and the optional Cloudflare Turnstile anti-spam setup.
 3. Run the app:
    `npm run dev`
+
+> This is a **frontend-only** build. Every `VITE_*` variable is bundled into the public
+> client JS — treat them all as public and never put a real secret in one.
