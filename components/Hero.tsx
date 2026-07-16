@@ -16,9 +16,9 @@ export const Hero: React.FC = () => {
       {/* Video Background Placeholder */}
       <div className="absolute inset-0 z-0">
         <div className="absolute inset-0 bg-black/60 z-10 honeycomb-grid"></div>
-        <img 
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop" 
-            alt="Server Room" 
+        <img
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop"
+            alt="Server Room"
             className="w-full h-full object-cover opacity-40 grayscale"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background z-10"></div>
@@ -32,11 +32,12 @@ export const Hero: React.FC = () => {
           transition={{ duration: 0.8 }}
           className="flex flex-col items-center w-full"
         >
-          <div className="inline-flex items-center border border-jarvis-orange/30 bg-jarvis-orange/10 px-4 py-1 mb-6 lg:mb-8 rounded-full backdrop-blur-sm h-7 md:h-8 overflow-hidden scale-90 md:scale-100">
-            <span className="text-jarvis-orange font-mono text-[10px] md:text-xs tracking-[0.2em] rtl:tracking-normal uppercase mr-2">
+          <div className="inline-flex items-center gap-2.5 mb-6 lg:mb-8 scale-90 md:scale-100">
+            <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse shadow-[0_0_8px_rgba(34,197,94,0.9)]"></span>
+            <span className="text-gray-500 font-mono text-[10px] md:text-xs tracking-[0.2em] rtl:tracking-normal uppercase">
               {statusLabel}:
             </span>
-            <span className="text-green-500 font-mono text-[10px] md:text-xs tracking-[0.2em] rtl:tracking-normal uppercase animate-pulse">
+            <span className="text-jarvis-orange font-mono text-[10px] md:text-xs tracking-[0.2em] rtl:tracking-normal uppercase">
               {statusValue}
             </span>
           </div>
