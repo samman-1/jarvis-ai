@@ -6,6 +6,7 @@ import { Academy } from './components/Academy';
 import { Services } from './components/Services';
 import { AgentRoster } from './components/AgentRoster';
 import { Industries } from './components/Industries';
+import { EInvoicing } from './components/EInvoicing';
 import { OriginCode } from './components/OriginCode';
 import { Clients } from './components/Clients';
 import { Footer } from './components/Footer';
@@ -28,6 +29,7 @@ function AppContent() {
         <Services />
         <AgentRoster />
         <Industries />
+        <EInvoicing />
         <OriginCode />
         <Clients />
       </main>

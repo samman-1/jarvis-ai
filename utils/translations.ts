@@ -133,6 +133,32 @@ export const translations: Translations = {
   'clients.headline': { en: "COMPANIES RUNNING ON JARVIS", ar: "شركات تعمل بجارفيس" },
   'clients.body': { en: "Real operations we engineer autonomy for.", ar: "عمليات حقيقية نهندس لها الاستقلالية." },
 
+  // E-Invoicing (ZATCA)
+  'nav.einvoicing': { en: "E-INVOICING", ar: "الفوترة الإلكترونية" },
+  'einv.sub': { en: "ZATCA COMPLIANCE", ar: "الامتثال لهيئة الزكاة والضريبة" },
+  'einv.title': { en: "ZATCA PHASE-2 E-INVOICING", ar: "الفوترة الإلكترونية للمرحلة الثانية" },
+  'einv.body': {
+    en: "JARVIS provides a ZATCA-compliant Phase-2 (Integration) e-invoicing solution. It generates UBL 2.1 XML invoices with cryptographic stamps and QR codes, clears B2B invoices in real time, reports B2C invoices within 24 hours, and handles device onboarding through Fatoora.",
+    ar: "يقدّم جارفيس حلاً للفوترة الإلكترونية متوافقاً مع المرحلة الثانية (التكامل) لهيئة الزكاة والضريبة والجمارك. فهو ينشئ فواتير UBL 2.1 XML مزوّدة بالأختام التشفيرية ورموز QR، ويطابق فواتير قطاع الأعمال فورياً، ويبلغ فواتير المستهلكين خلال 24 ساعة، مع تأهيل الأجهزة عبر منصة فاتورة."
+  },
+  'einv.f1.title': { en: "UBL 2.1 XML Invoices", ar: "فواتير UBL 2.1 XML" },
+  'einv.f1.desc': { en: "Standards-compliant electronic invoices generated as UBL 2.1 XML.", ar: "فواتير إلكترونية متوافقة مع المعايير بصيغة UBL 2.1 XML." },
+  'einv.f2.title': { en: "Cryptographic Stamp", ar: "الختم التشفيري" },
+  'einv.f2.desc': { en: "Every invoice carries a cryptographic stamp for tamper-proof integrity.", ar: "كل فاتورة تحمل ختماً تشفيرياً يضمن سلامتها وعدم العبث بها." },
+  'einv.f3.title': { en: "ZATCA QR Code", ar: "رمز QR المعتمد" },
+  'einv.f3.desc': { en: "A ZATCA-compliant QR code embedded on every invoice for instant verification.", ar: "رمز QR متوافق مع الهيئة على كل فاتورة للتحقق الفوري." },
+  'einv.f4.title': { en: "Real-time Clearance (B2B)", ar: "المطابقة الفورية (B2B)" },
+  'einv.f4.desc': { en: "Standard tax invoices cleared with ZATCA in real time before issuance.", ar: "مطابقة فواتير الضريبة القياسية مع الهيئة فورياً قبل إصدارها." },
+  'einv.f5.title': { en: "24-Hour Reporting (B2C)", ar: "الإبلاغ خلال 24 ساعة (B2C)" },
+  'einv.f5.desc': { en: "Simplified invoices reported to ZATCA within 24 hours of issuance.", ar: "إبلاغ الفواتير المبسطة للهيئة خلال 24 ساعة من إصدارها." },
+  'einv.f6.title': { en: "Fatoora Onboarding", ar: "التأهيل عبر فاتورة" },
+  'einv.f6.desc': { en: "Device onboarding and certificate (CSID) issuance through ZATCA's Fatoora platform.", ar: "ربط الأجهزة وإصدار الشهادات (CSID) عبر منصة فاتورة التابعة للهيئة." },
+  'einv.note': {
+    en: "Validated against ZATCA's sandbox: a standard B2B invoice cleared and a simplified B2C invoice reported, both with zero errors.",
+    ar: "تم التحقق منه عبر بيئة الاختبار (Sandbox) لهيئة الزكاة والضريبة: مطابقة فاتورة قياسية (B2B) وإبلاغ فاتورة مبسطة (B2C)، دون أي أخطاء."
+  },
+  'einv.cta': { en: "[ REQUEST E-INVOICING ]", ar: "[ اطلب حل الفوترة الإلكترونية ]" },
+
   // Footer
   'footer.headline': { en: "READY TO ARCHITECT", ar: "جاهز لتصميم" },
   'footer.manual': { en: "YOUR FUTURE SYSTEMS?", ar: "أنظمتك المستقبلية؟" },

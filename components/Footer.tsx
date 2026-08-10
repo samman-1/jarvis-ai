@@ -31,9 +31,15 @@ export const Footer: React.FC = () => {
         <div className="grid md:grid-cols-4 gap-8 text-left rtl:text-right border-t border-white/10 pt-12">
           <div className="col-span-1 md:col-span-2">
             <h4 className="text-white font-bold text-xl mb-4 tracking-tighter">JARVIS AI</h4>
-            <p className="text-gray-500 text-sm max-w-xs rtl:font-arabic font-mono uppercase">
+            <p className="text-gray-500 text-sm max-w-xs rtl:font-arabic font-mono uppercase mb-4">
               {t('footer.desc')}
             </p>
+            <a
+              href="#einvoicing"
+              className="inline-block text-jarvis-orange hover:text-white transition-colors text-sm font-mono uppercase tracking-wider rtl:font-arabic"
+            >
+              {t('nav.einvoicing')} →
+            </a>
           </div>
           
           <div>
