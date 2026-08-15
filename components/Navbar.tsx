@@ -7,6 +7,10 @@ export const Navbar: React.FC = () => {
   const { t, language, toggleLanguage, openLeadForm } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+  // Unified portal login gateway. Local default; set VITE_PORTAL_LOGIN_URL in prod.
+  const PORTAL_LOGIN_URL =
+    (import.meta.env.VITE_PORTAL_LOGIN_URL as string | undefined) || 'http://localhost:3001';
+
   const navItems = [
     { label: 'nav.academy', id: 'academy' },
     { label: 'nav.protocol', id: 'architecture' },
@@ -49,13 +53,13 @@ export const Navbar: React.FC = () => {
         </div>
         
         {/* Desktop Navigation */}
-        <div className="hidden lg:flex items-center gap-8">
+        <div className="hidden xl:flex items-center gap-5">
           {navItems.map((item) => (
-            <a 
-              key={item.id} 
-              href={`#${item.id}`} 
+            <a
+              key={item.id}
+              href={`#${item.id}`}
               onClick={(e) => handleScroll(e, item.id)}
-              className="text-xs font-mono rtl:font-arabic text-gray-400 hover:text-jarvis-orange transition-colors uppercase tracking-widest rtl:tracking-wider"
+              className="whitespace-nowrap text-xs font-mono rtl:font-arabic text-gray-400 hover:text-jarvis-orange transition-colors uppercase tracking-wider"
             >
               {t(item.label)}
             </a>
@@ -69,17 +73,24 @@ export const Navbar: React.FC = () => {
             {language === 'en' ? 'AR' : 'EN'}
           </button>
 
-          <button 
+          <a
+            href={PORTAL_LOGIN_URL}
+            className="whitespace-nowrap px-4 py-2 border border-white/25 text-white text-xs font-mono uppercase tracking-wider hover:border-jarvis-orange hover:text-jarvis-orange transition-all duration-300 rtl:font-arabic rtl:font-bold"
+          >
+            {t('nav.login')}
+          </a>
+
+          <button
             onClick={openLeadForm}
-            className="px-6 py-2 border border-jarvis-orange/50 text-jarvis-orange text-xs font-mono uppercase tracking-widest hover:bg-jarvis-orange hover:text-black transition-all duration-300 clip-hex rtl:font-arabic rtl:font-bold"
+            className="whitespace-nowrap px-4 py-2 border border-jarvis-orange/50 text-jarvis-orange text-xs font-mono uppercase tracking-wider hover:bg-jarvis-orange hover:text-black transition-all duration-300 clip-hex rtl:font-arabic rtl:font-bold"
           >
             {t('nav.start')}
           </button>
         </div>
 
         {/* Mobile Menu Toggle */}
-        <button 
-          className="lg:hidden relative z-[110] p-2 text-white hover:text-jarvis-orange transition-colors"
+        <button
+          className="xl:hidden relative z-[110] p-2 text-white hover:text-jarvis-orange transition-colors"
           onClick={toggleMenu}
           aria-label="Toggle navigation menu"
         >
@@ -94,7 +105,7 @@ export const Navbar: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="fixed inset-0 lg:hidden bg-black z-[105] flex flex-col pt-24 px-6"
+              className="fixed inset-0 xl:hidden bg-black z-[105] flex flex-col pt-24 px-6"
             >
               <div className="flex flex-col items-center gap-8 mt-12">
                 {navItems.map((item, idx) => (
@@ -125,7 +136,14 @@ export const Navbar: React.FC = () => {
                     {language === 'en' ? 'ARABIC (SAUDI)' : 'ENGLISH (US)'}
                   </button>
 
-                  <button 
+                  <a
+                    href={PORTAL_LOGIN_URL}
+                    className="w-full text-center py-4 border border-white/25 text-white text-lg font-mono uppercase tracking-widest rtl:font-arabic"
+                  >
+                    {t('nav.login')}
+                  </a>
+
+                  <button
                     onClick={() => {
                       openLeadForm();
                       setIsMenuOpen(false);

@@ -9,6 +9,7 @@ export const translations: Translations = {
   'nav.us': { en: 'US', ar: 'نحن' },
   'nav.system_online': { en: 'SYSTEMS ONLINE', ar: 'الأنظمة تعمل' },
   'nav.start': { en: 'BOOK A MEETING', ar: 'احجز اجتماعاً' },
+  'nav.login': { en: 'LOG IN', ar: 'تسجيل الدخول' },
 
   // Hero
   'hero.system_status': { en: 'SYSTEM STATUS: PEAK OPTIMIZATION', ar: 'حالة النظام: التحسين القصوى' },

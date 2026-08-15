@@ -15,6 +15,12 @@ dist-ssr
 # Vercel CLI local project link (contains project/org IDs — keep out of the repo)
 .vercel
 
+# Portal login gateway — separate app, becomes its own repo (not part of the marketing site)
+portal-gateway
+# MEC portal — cloned separately for the SSO integration; its own repo
+mec-portal
+IMG_1959.MP4
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
