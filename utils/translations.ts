@@ -170,6 +170,8 @@ export const translations: Translations = {
   'footer.rights': { en: "JARVIS AI. EVERYTHING IS WORKING.", ar: "جارفيس. كل شيء يعمل." },
   'footer.privacy': { en: 'Privacy Protocol', ar: 'بروتوكول الخصوصية' },
   'footer.terms': { en: 'Terms of Service', ar: 'شروط الخدمة' },
+  'footer.privacy_page': { en: 'Privacy Policy (App)', ar: 'سياسة الخصوصية (التطبيق)' },
+  'footer.support': { en: 'Support', ar: 'الدعم' },
 
   // Legal Modals
   'legal.privacy.title': { en: 'DATA SOVEREIGNTY & SECURITY PROTOCOL', ar: 'بروتوكول سيادة البيانات والأمن' },

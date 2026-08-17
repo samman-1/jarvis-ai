@@ -63,12 +63,31 @@ export const Footer: React.FC = () => {
                 </button>
               </li>
               <li>
-                <button 
+                <button
                   onClick={() => openLegalModal('terms')}
                   className="hover:text-jarvis-orange transition-colors uppercase tracking-wider text-left rtl:text-right"
                 >
                   {t('footer.terms')}
                 </button>
+              </li>
+              {/* Real URLs, not modals. The App Store and Play Console both require a
+                  publicly reachable Privacy Policy URL and Support URL for the JARVIS app —
+                  a modal has no address to submit. These are static pages in public/. */}
+              <li>
+                <a
+                  href="/privacy"
+                  className="hover:text-jarvis-orange transition-colors uppercase tracking-wider block text-left rtl:text-right"
+                >
+                  {t('footer.privacy_page')}
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/support"
+                  className="hover:text-jarvis-orange transition-colors uppercase tracking-wider block text-left rtl:text-right"
+                >
+                  {t('footer.support')}
+                </a>
               </li>
             </ul>
           </div>

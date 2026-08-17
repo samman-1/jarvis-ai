@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en" class="dark" style="scroll-behavior: smooth;">
+<head>
+  <meta charset="utf-8" />
+  <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#050505" />
+  <title>Privacy Policy | JARVIS AI</title>
+  <meta name="description" content="How JARVIS AI and the JARVIS app collect, use and protect data." />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            background: '#050505',
+            'jarvis-orange': '#FF4500',
+            'jarvis-orange-dim': '#CC3700',
+            'steel-white': '#E0E0E0',
+            'tech-gray': '#1A1A1A',
+          },
+          fontFamily: {
+            mono: ['"JetBrains Mono"', '"Fira Code"', 'monospace'],
+            sans: ['"Inter"', 'system-ui', 'sans-serif'],
+            arabic: ['"IBM Plex Sans Arabic"', 'sans-serif'],
+          },
+        },
+      },
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@400;700&family=IBM+Plex+Sans+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { background-color: #050505; color: #E0E0E0; overflow-x: hidden; word-break: break-word; }
+    .honeycomb-grid {
+      background-image:
+        radial-gradient(circle at center, transparent 0%, #050505 80%),
+        linear-gradient(30deg, #111 1px, transparent 1px),
+        linear-gradient(150deg, #111 1px, transparent 1px),
+        linear-gradient(90deg, #111 1px, transparent 1px);
+      background-size: 100% 100%, 40px 69px, 40px 69px, 40px 69px;
+      background-position: 0 0, 0 0, 0 0, 20px 35px;
+    }
+    .clip-hex { clip-path: polygon(10% 0, 100% 0, 100% 90%, 90% 100%, 0 100%, 0 10%); }
+    [dir="rtl"] { text-align: right; font-family: 'IBM Plex Sans Arabic', sans-serif; }
+    [dir="rtl"] .font-mono { font-family: 'IBM Plex Sans Arabic', monospace; }
+    h1,h2,h3 { -webkit-hyphens: none; hyphens: none; word-break: normal; }
+    /* Mobile form controls / tap targets — same rules as the portals */
+    html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+    @media (max-width: 640px) {
+      input, select, textarea { font-size: 16px !important; }
+      button, [role="button"] { min-height: 44px; }
+    }
+  </style>
+</head>
+<body class="honeycomb-grid min-h-screen">
+
+  <header class="border-b border-white/10 bg-black/60 backdrop-blur-xl sticky top-0 z-50">
+    <div class="max-w-4xl mx-auto px-5 py-4 flex items-center justify-between gap-4">
+      <a href="/" class="font-mono text-sm font-bold tracking-widest text-white hover:text-jarvis-orange transition-colors">
+        JARVIS <span class="text-jarvis-orange">AI</span>
+      </a>
+      <div class="flex items-center gap-4">
+        <button id="langToggle" class="font-mono text-[11px] uppercase tracking-widest text-gray-400 hover:text-jarvis-orange transition-colors px-3 py-2">العربية</button>
+        <a href="/" class="font-mono text-[11px] uppercase tracking-widest text-gray-400 hover:text-jarvis-orange transition-colors">← Home</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-5 py-14 md:py-20">
+
+    <!-- ───────────────── ENGLISH ───────────────── -->
+    <section id="en">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-jarvis-orange mb-3">Legal Protocol</p>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase mb-4">Privacy Policy</h1>
+      <p class="font-mono text-[11px] text-gray-500 mb-10">Last updated: 17 August 2026</p>
+
+      <div class="bg-tech-gray/50 border border-white/10 clip-hex p-6 md:p-8 mb-10">
+        <p class="text-gray-300 leading-relaxed">
+          JARVIS AI is an engineering firm, not a data broker. We collect only what is required to architect,
+          deploy and operate intelligent systems. Privacy is treated as an engineering constraint, not a
+          marketing promise. This policy covers both our agency services and the <strong class="text-white">JARVIS mobile app</strong>.
+        </p>
+      </div>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">1. The JARVIS Mobile App</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        The JARVIS app is a private tool for employees of our client organisations. It is not a consumer app and
+        it is not available to the general public. It provides secure access to the operational portal belonging
+        to the organisation you work for.
+      </p>
+      <p class="text-gray-400 leading-relaxed mb-4"><strong class="text-white">What the app collects:</strong></p>
+      <ul class="space-y-3 mb-6 text-gray-400">
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">Sign-in credentials.</strong> The username and password you enter are sent over an encrypted connection (HTTPS) to the JARVIS identity service to verify who you are. The app does not store your password.</li>
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">A one-time verification code.</strong> Sent to your registered work email to confirm it is really you.</li>
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">A session cookie.</strong> Stored on your device so you are not asked to sign in repeatedly. It expires automatically.</li>
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">A push notification token.</strong> A device identifier used only to deliver work alerts, such as an order awaiting your approval. It is not linked to advertising.</li>
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">Camera and photo access.</strong> Requested only when you choose to attach a document (an invoice, a delivery note, a payment proof) to a record. Images are sent to your organisation's portal, never to us.</li>
+        <li class="pl-5 border-s-2 border-jarvis-orange/40"><strong class="text-steel-white">Face ID / biometric unlock.</strong> Handled entirely by your device's operating system. Your biometric data never leaves your device and is never transmitted to or seen by us.</li>
+      </ul>
+      <p class="text-gray-400 leading-relaxed mb-4"><strong class="text-white">What the app does not do:</strong> no advertising, no tracking across other apps or websites, no analytics SDKs, no sale of data, no location collection, and no profiling.</p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">2. Who Controls Your Data</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        The business data inside a portal — orders, invoices, inventory, customers, financial records — belongs to
+        the organisation that employs you. That organisation decides who may see it and for how long it is kept.
+        JARVIS AI processes it on their behalf and under their instruction.
+      </p>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        If you want your personal data corrected or removed, contact your organisation's administrator first —
+        they control it. You can also write to us and we will assist them.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">3. Information We Collect (Agency Services)</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        We collect name, email, role, company and operational data shared during project execution, provided
+        voluntarily via booking or contract. We automatically log IP and device information for security
+        diagnostics only.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">4. How We Use Data</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        Strictly to analyse problems, deploy systems, operate the services you have engaged us for, and secure
+        those systems. We do <strong class="text-white">not</strong> use client data for advertising, resale or profiling.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">5. AI &amp; Data Ownership</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        Client data used in AI workflows remains client-owned. We do not train public or third-party AI models on
+        your data without explicit written consent. Where an AI assistant answers questions about your operations,
+        it reads your data to produce an answer for you — it does not contribute that data to any shared model.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">6. Data Sharing</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        We do not sell data. Sharing is limited to the infrastructure providers required to operate the service
+        (hosting, database, email delivery, push notification delivery), or to legal authorities where mandated by
+        Saudi law. These providers process data on our instruction and may not use it for their own purposes.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">7. Security</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        Encrypted connections throughout, passwords stored only as cryptographic hashes and never in plain text,
+        access-controlled infrastructure, segmented environments per client, and server-side permission checks on
+        every request. Access to a portal is restricted to the people your organisation authorises.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">8. Retention &amp; Deletion</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        Operational data is retained for as long as your organisation's engagement with us continues, or as long as
+        Saudi commercial and tax law requires. On termination, data is returned or deleted at the client's
+        instruction. Sign-in sessions expire automatically; deleting the app removes its stored session from your device.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">9. Children</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        The app and our services are business tools intended for adults in a workplace. They are not directed at
+        children and we do not knowingly collect data from anyone under 18.
+      </p>
+
+      <h2 class="text-xl font-bold text-white uppercase font-mono tracking-tight mt-12 mb-4 border-b border-white/10 pb-2">10. Jurisdiction &amp; Contact</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        This policy is governed by the laws of the Kingdom of Saudi Arabia, including the Personal Data Protection
+        Law (PDPL).
+      </p>
+      <div class="bg-tech-gray/50 border border-white/10 clip-hex p-6 mt-6">
+        <p class="font-mono text-[11px] uppercase tracking-widest text-jarvis-orange mb-3">Contact</p>
+        <p class="text-gray-300">Privacy enquiries: <a href="mailto:privacy@jarvisksa.com" class="text-jarvis-orange hover:underline">privacy@jarvisksa.com</a></p>
+        <p class="text-gray-300 mt-1">Support: <a href="mailto:support@jarvisksa.com" class="text-jarvis-orange hover:underline">support@jarvisksa.com</a></p>
+        <p class="text-gray-500 text-sm mt-3">JARVIS AI · Jeddah, Kingdom of Saudi Arabia</p>
+      </div>
+    </section>
+
+    <!-- ───────────────── ARABIC ───────────────── -->
+    <section id="ar" dir="rtl" class="font-arabic hidden">
+      <p class="font-mono text-[11px] uppercase tracking-[0.2em] text-jarvis-orange mb-3">البروتوكول القانوني</p>
+      <h1 class="text-3xl md:text-5xl font-black tracking-tighter text-white mb-4">سياسة الخصوصية</h1>
+      <p class="font-mono text-[11px] text-gray-500 mb-10">آخر تحديث: ١٧ أغسطس ٢٠٢٦</p>
+
+      <div class="bg-tech-gray/50 border border-white/10 clip-hex p-6 md:p-8 mb-10">
+        <p class="text-gray-300 leading-relaxed">
+          JARVIS AI شركة هندسية وليست وسيط بيانات. نجمع فقط ما هو مطلوب لتصميم ونشر وتشغيل الأنظمة الذكية.
+          نتعامل مع الخصوصية كقيد هندسي وليس كوعد تسويقي. تغطي هذه السياسة خدمات الوكالة
+          و<strong class="text-white">تطبيق JARVIS للهاتف</strong>.
+        </p>
+      </div>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">١. تطبيق JARVIS للهاتف</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        تطبيق JARVIS أداة خاصة لموظفي المؤسسات العميلة. ليس تطبيقاً استهلاكياً وغير متاح لعامة الناس.
+        يوفّر وصولاً آمناً إلى البوابة التشغيلية الخاصة بالمؤسسة التي تعمل بها.
+      </p>
+      <p class="text-gray-400 leading-relaxed mb-4"><strong class="text-white">ما يجمعه التطبيق:</strong></p>
+      <ul class="space-y-3 mb-6 text-gray-400">
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">بيانات تسجيل الدخول.</strong> يُرسَل اسم المستخدم وكلمة المرور عبر اتصال مشفّر للتحقق من هويتك. لا يخزّن التطبيق كلمة المرور.</li>
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">رمز تحقق لمرة واحدة.</strong> يُرسَل إلى بريد العمل المسجّل للتأكد من أنك أنت.</li>
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">ملف ارتباط للجلسة.</strong> يُحفظ على جهازك حتى لا يُطلب منك تسجيل الدخول مراراً، وينتهي تلقائياً.</li>
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">رمز الإشعارات.</strong> معرّف للجهاز يُستخدم فقط لإيصال تنبيهات العمل، مثل طلب بانتظار موافقتك. لا علاقة له بالإعلانات.</li>
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">الكاميرا والصور.</strong> تُطلَب فقط عند اختيارك إرفاق مستند (فاتورة، إشعار تسليم، إثبات دفع). تُرسَل الصور إلى بوابة مؤسستك، لا إلينا.</li>
+        <li class="pe-5 border-e-2 border-jarvis-orange/40"><strong class="text-steel-white">القياسات الحيوية (Face ID).</strong> يديرها نظام تشغيل جهازك بالكامل. لا تغادر بياناتك الحيوية جهازك ولا نراها إطلاقاً.</li>
+      </ul>
+      <p class="text-gray-400 leading-relaxed mb-4"><strong class="text-white">ما لا يفعله التطبيق:</strong> لا إعلانات، ولا تتبّع عبر التطبيقات والمواقع الأخرى، ولا أدوات تحليلات، ولا بيع للبيانات، ولا جمع للموقع، ولا توصيف للمستخدمين.</p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٢. من يتحكم ببياناتك</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        البيانات التجارية داخل البوابة — الطلبات والفواتير والمخزون والعملاء والسجلات المالية — ملك للمؤسسة التي
+        تعمل بها. هي من يقرر من يطّلع عليها ومدة الاحتفاظ بها. تعالجها JARVIS AI نيابةً عنها وبتوجيه منها.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٣. المعلومات التي نجمعها (خدمات الوكالة)</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        نجمع الاسم والبريد الإلكتروني والدور والشركة والبيانات التشغيلية المشتركة أثناء تنفيذ المشروع، وتُقدَّم طوعاً
+        عبر الحجز أو العقد. ونسجّل تلقائياً معلومات IP والجهاز لتشخيص الأمان فقط.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٤. كيف نستخدم البيانات</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        حصرياً لتحليل المشكلات ونشر الأنظمة وتشغيل الخدمات المتعاقد عليها وتأمينها. لا نستخدم بيانات العملاء
+        للإعلان أو إعادة البيع أو التوصيف.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٥. الذكاء الاصطناعي وملكية البيانات</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        تظل بيانات العميل المستخدمة في سير عمل الذكاء الاصطناعي مملوكة للعميل. لا ندرّب نماذج عامة أو تابعة لجهات
+        خارجية على بياناتك دون موافقة كتابية صريحة.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٦. مشاركة البيانات</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        لا نبيع البيانات. تقتصر المشاركة على مزوّدي البنية التحتية اللازمين للتشغيل (الاستضافة وقاعدة البيانات
+        وإرسال البريد والإشعارات)، أو السلطات القانونية عند الإلزام بموجب القانون السعودي.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٧. الأمن</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        اتصالات مشفّرة، وكلمات مرور تُخزَّن كبصمات تشفيرية فقط ولا تُحفظ كنص صريح، وبنية تحتية خاضعة للتحكم بالوصول،
+        وبيئات مجزّأة لكل عميل، وفحص صلاحيات على الخادم مع كل طلب.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٨. الاحتفاظ والحذف</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        يُحتفظ بالبيانات التشغيلية طوال مدة التعاقد أو للمدة التي يفرضها النظام التجاري والضريبي السعودي. وعند
+        الإنهاء تُعاد البيانات أو تُحذف بحسب تعليمات العميل. تنتهي الجلسات تلقائياً، وحذف التطبيق يزيل الجلسة المحفوظة من جهازك.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">٩. الأطفال</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        التطبيق وخدماتنا أدوات أعمال موجّهة للبالغين في بيئة العمل، وليست موجّهة للأطفال، ولا نجمع عن قصد بيانات من هم دون ١٨ عاماً.
+      </p>
+
+      <h2 class="text-xl font-bold text-white mt-12 mb-4 border-b border-white/10 pb-2">١٠. الاختصاص القضائي والتواصل</h2>
+      <p class="text-gray-400 leading-relaxed mb-4">
+        تخضع هذه السياسة لأنظمة المملكة العربية السعودية، بما فيها نظام حماية البيانات الشخصية (PDPL).
+      </p>
+      <div class="bg-tech-gray/50 border border-white/10 clip-hex p-6 mt-6">
+        <p class="font-mono text-[11px] uppercase tracking-widest text-jarvis-orange mb-3">التواصل</p>
+        <p class="text-gray-300">استفسارات الخصوصية: <a href="mailto:privacy@jarvisksa.com" class="text-jarvis-orange hover:underline">privacy@jarvisksa.com</a></p>
+        <p class="text-gray-300 mt-1">الدعم: <a href="mailto:support@jarvisksa.com" class="text-jarvis-orange hover:underline">support@jarvisksa.com</a></p>
+        <p class="text-gray-500 text-sm mt-3">JARVIS AI · جدة، المملكة العربية السعودية</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="border-t border-white/10 mt-10">
+    <div class="max-w-4xl mx-auto px-5 py-8 flex flex-wrap gap-4 items-center justify-between">
+      <p class="font-mono text-[11px] uppercase tracking-widest text-gray-600">JARVIS AI · Everything is working.</p>
+      <div class="flex gap-5">
+        <a href="/support" class="font-mono text-[11px] uppercase tracking-widest text-gray-400 hover:text-jarvis-orange transition-colors">Support</a>
+        <a href="/" class="font-mono text-[11px] uppercase tracking-widest text-gray-400 hover:text-jarvis-orange transition-colors">Home</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Language toggle — the page ships both versions and swaps which one is visible,
+    // so it works with no framework and no extra request.
+    (function () {
+      var btn = document.getElementById('langToggle');
+      var en = document.getElementById('en');
+      var ar = document.getElementById('ar');
+      var isAr = (location.hash === '#ar') || (navigator.language || '').toLowerCase().indexOf('ar') === 0;
+      function apply() {
+        en.classList.toggle('hidden', isAr);
+        ar.classList.toggle('hidden', !isAr);
+        btn.textContent = isAr ? 'English' : 'العربية';
+        document.documentElement.lang = isAr ? 'ar' : 'en';
+      }
+      btn.addEventListener('click', function () { isAr = !isAr; apply(); });
+      apply();
+    })();
+  </script>
+</body>
+</html>
