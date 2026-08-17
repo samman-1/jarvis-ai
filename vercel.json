@@ -1,6 +1,5 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
-  "//": "Clean URLs for the legal/support pages. Apple and Google both require a publicly reachable Privacy Policy URL and a Support URL for App Store / Play listings — an in-page modal does not qualify, so these are real static pages under public/.",
   "rewrites": [
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/privacy.html" },
