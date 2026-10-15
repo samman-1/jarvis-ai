@@ -22,8 +22,25 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     setLanguage(prev => prev === 'en' ? 'ar' : 'en');
   };
 
-  const openLeadForm = () => setIsLeadFormOpen(true);
-  const closeLeadForm = () => setIsLeadFormOpen(false);
+  // "Book a meeting" opens the booking overlay ON TOP of the current page (the site
+  // stays behind, faded). The URL is set to /book so it's a shareable direct link;
+  // opening /book cold loads the site and auto-opens the overlay over it.
+  const openLeadForm = () => {
+    setIsLeadFormOpen(true);
+    try { if (!window.location.pathname.startsWith('/book')) window.history.pushState({ booking: true }, '', '/book'); } catch { /* noop */ }
+  };
+  const closeLeadForm = () => {
+    setIsLeadFormOpen(false);
+    try { if (window.location.pathname.startsWith('/book')) window.history.pushState({}, '', '/'); } catch { /* noop */ }
+  };
+
+  // Direct link (/book) opens the overlay; the back button closes it.
+  useEffect(() => {
+    if (window.location.pathname.startsWith('/book')) setIsLeadFormOpen(true);
+    const onPop = () => setIsLeadFormOpen(window.location.pathname.startsWith('/book'));
+    window.addEventListener('popstate', onPop);
+    return () => window.removeEventListener('popstate', onPop);
+  }, []);
 
   const openLegalModal = (type: 'privacy' | 'terms') => setActiveLegalModal(type);
   const closeLegalModal = () => setActiveLegalModal(null);

@@ -16,7 +16,6 @@ export const Navbar: React.FC = () => {
     { label: 'nav.protocol', id: 'architecture' },
     { label: 'nav.tools', id: 'smart-tools' },
     { label: 'nav.work', id: 'where-we-work' },
-    { label: 'nav.einvoicing', id: 'einvoicing' },
     { label: 'nav.us', id: 'origin' }
   ];
 

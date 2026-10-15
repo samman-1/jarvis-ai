@@ -6,12 +6,11 @@ import { Academy } from './components/Academy';
 import { Services } from './components/Services';
 import { AgentRoster } from './components/AgentRoster';
 import { Industries } from './components/Industries';
-import { EInvoicing } from './components/EInvoicing';
 import { OriginCode } from './components/OriginCode';
 import { Clients } from './components/Clients';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
-import { LeadForm } from './components/LeadForm';
+import { BookMeeting } from './components/BookMeeting';
 import { LegalModal } from './components/LegalModal';
 import { LanguageProvider } from './contexts/LanguageContext';
 
@@ -20,7 +19,7 @@ function AppContent() {
     <div className="bg-background min-h-screen text-white selection:bg-jarvis-orange selection:text-black font-sans rtl:font-arabic">
       <CustomCursor />
       <Navbar />
-      <LeadForm />
+      <BookMeeting />
       <LegalModal />
       <main>
         <Hero />
@@ -29,7 +28,6 @@ function AppContent() {
         <Services />
         <AgentRoster />
         <Industries />
-        <EInvoicing />
         <OriginCode />
         <Clients />
       </main>
