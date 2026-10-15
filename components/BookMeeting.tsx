@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import { Check, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined;
@@ -13,7 +13,7 @@ const L = {
     eyebrow: 'Book a meeting', head: "Let's talk.",
     name: 'Name', email: 'Email', phone: 'Number', company: 'Company',
     request: 'Request', sending: 'Sending…', tz: 'Jeddah time · GMT+3',
-    sent: 'Request sent.', confirm: "We'll confirm by email shortly.", done: 'Done',
+    sent: 'Request sent.', confirm: "A confirmation email is on its way to your inbox.", done: 'Done',
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     dowShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
     dowFull: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
@@ -23,7 +23,7 @@ const L = {
     eyebrow: 'احجز اجتماعاً', head: 'لنتحدّث.',
     name: 'الاسم', email: 'البريد الإلكتروني', phone: 'رقم الجوال', company: 'اسم الشركة',
     request: 'إرسال الطلب', sending: 'جارٍ الإرسال…', tz: 'بتوقيت جدة · GMT+3',
-    sent: 'تم إرسال طلبك.', confirm: 'سنتواصل معك عبر البريد قريباً.', done: 'تم',
+    sent: 'تم إرسال طلبك.', confirm: 'وصلتك رسالة تأكيد على بريدك الإلكتروني.', done: 'تم',
     months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
     dowShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
     dowFull: ['الأحد', 'الاثنين', 'الثلاثاء', 'الأربعاء', 'الخميس', 'الجمعة', 'السبت'],
@@ -188,7 +188,7 @@ export const BookMeeting: React.FC = () => {
 
               {step === 'done' && (
                 <motion.div key="done" initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} className="py-6 text-center">
-                  <div className="inline-grid place-items-center w-14 h-14 border border-jarvis-orange rounded-full mb-5"><div className="w-2.5 h-2.5 bg-jarvis-orange rounded-full animate-ping" /></div>
+                  <div className="inline-grid place-items-center w-14 h-14 bg-jarvis-orange rounded-full mb-5"><Check className="w-7 h-7 text-black" strokeWidth={3} /></div>
                   <h3 className={`text-xl font-bold text-white ${ar ? 'font-arabic' : ''}`}>{s.sent}</h3>
                   {date && time !== null && <p className="mt-2 font-mono text-xs text-gray-400">{human(date)} · {fmtTime(time)}</p>}
                   <p className={`mt-1 ${fontCls} text-[11px] text-gray-600`}>{s.confirm}</p>
