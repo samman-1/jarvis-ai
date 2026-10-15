@@ -101,7 +101,9 @@ export const BookMeeting: React.FC = () => {
     finally { setSending(false); setStep('done'); }
   };
 
-  const input = `w-full bg-transparent border-b border-white/15 py-2.5 text-white ${fontCls} text-sm focus:border-jarvis-orange outline-none transition placeholder:text-gray-600`;
+  // text-base (16px) is deliberate: iOS Safari auto-zooms into any input whose
+  // font is < 16px, which is what forced the "I had to zoom out" on mobile.
+  const input = `w-full bg-transparent border-b border-white/15 py-2.5 text-white ${fontCls} text-base focus:border-jarvis-orange outline-none transition placeholder:text-gray-600`;
   const back = ar ? '›' : '‹';
 
   return (
@@ -117,7 +119,7 @@ export const BookMeeting: React.FC = () => {
             initial={{ scale: 0.97, opacity: 0, y: 16 }} animate={{ scale: 1, opacity: 1, y: 0 }} exit={{ scale: 0.97, opacity: 0, y: 16 }}
             transition={{ type: 'spring', damping: 26, stiffness: 300 }}
             onClick={(e) => e.stopPropagation()}
-            className="relative w-full max-w-[400px] bg-[#0a0908] border border-white/10 clip-hex p-7 sm:p-8"
+            className="relative w-full max-w-[400px] max-h-[90vh] overflow-y-auto bg-[#0a0908] border border-white/10 clip-hex p-6 sm:p-8"
           >
             <div className="absolute top-0 left-0 right-0 h-px" style={{ background: 'linear-gradient(90deg,transparent,#FF4500,transparent)' }} />
             <button onClick={closeLeadForm} aria-label="Close" className="absolute top-5 right-5 rtl:right-auto rtl:left-5 text-gray-600 hover:text-jarvis-orange transition"><X className="w-5 h-5" /></button>

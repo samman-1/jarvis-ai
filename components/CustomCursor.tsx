@@ -4,8 +4,22 @@ import { motion } from 'framer-motion';
 export const CustomCursor: React.FC = () => {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isHovering, setIsHovering] = useState(false);
+  // Only a real mouse gets the custom cursor. On touch/coarse-pointer devices
+  // (phones, tablets) there is no pointer to follow, so a tap would otherwise
+  // leave the ring stranded on screen — don't render it at all.
+  const [hasFinePointer, setHasFinePointer] = useState(false);
 
   useEffect(() => {
+    if (typeof window === 'undefined' || !window.matchMedia) return;
+    const mq = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const apply = () => setHasFinePointer(mq.matches);
+    apply();
+    mq.addEventListener('change', apply);
+    return () => mq.removeEventListener('change', apply);
+  }, []);
+
+  useEffect(() => {
+    if (!hasFinePointer) return;
     const mouseMove = (e: MouseEvent) => {
       setMousePosition({
         x: e.clientX,
@@ -29,7 +43,9 @@ export const CustomCursor: React.FC = () => {
       window.removeEventListener("mousemove", mouseMove);
       window.removeEventListener("mouseover", handleMouseOver);
     };
-  }, []);
+  }, [hasFinePointer]);
+
+  if (!hasFinePointer) return null;
 
   return (
     <>
