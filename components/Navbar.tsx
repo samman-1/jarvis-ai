@@ -111,9 +111,9 @@ export const Navbar: React.FC = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3, ease: 'easeOut' }}
-              className="fixed inset-0 xl:hidden bg-black z-[105] flex flex-col pt-24 px-6"
+              className="fixed inset-0 xl:hidden bg-black z-[105] flex flex-col pt-24 px-6 overflow-y-auto pb-16"
             >
-              <div className="flex flex-col items-center gap-8 mt-12">
+              <div className="flex flex-col items-center gap-6 mt-6">
                 {navItems.map((item, idx) => (
                   <motion.a
                     initial={{ opacity: 0, x: -20 }}

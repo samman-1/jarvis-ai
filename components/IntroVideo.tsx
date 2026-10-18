@@ -32,10 +32,21 @@ export const IntroVideo: React.FC = () => {
       {isVideoOpen && (
         <motion.div
           initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[9999] bg-black flex flex-col"
+          className="fixed inset-0 z-[9999] bg-background flex flex-col overflow-hidden"
         >
+          {/* Ambient Jarvis backdrop: honeycomb grid + orange glow behind the video */}
+          <div className="absolute inset-0 honeycomb-grid opacity-40 pointer-events-none" />
+          <div
+            className="absolute inset-0 pointer-events-none"
+            style={{ background: 'radial-gradient(circle at 50% 42%, rgba(255,69,0,0.16), transparent 58%)' }}
+          />
+          <div
+            className="absolute top-0 left-0 right-0 h-px pointer-events-none"
+            style={{ background: 'linear-gradient(90deg,transparent,#FF4500,transparent)' }}
+          />
+
           {/* Top bar */}
-          <div className="flex items-center justify-between px-5 sm:px-8 py-4 border-b border-white/10 shrink-0">
+          <div className="relative z-10 flex items-center justify-between px-5 sm:px-8 py-4 border-b border-white/10 shrink-0">
             <span className="text-lg font-bold tracking-tighter text-white uppercase">
               JARVIS<span className="text-jarvis-orange">AI</span>
             </span>
@@ -45,7 +56,7 @@ export const IntroVideo: React.FC = () => {
           </div>
 
           {/* Video (16:9, fits the viewport, no download) */}
-          <div className="flex-1 flex items-center justify-center p-4 sm:p-8 min-h-0">
+          <div className="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-8 min-h-0">
             <video
               key={vlang}
               src={SRC[vlang]}
@@ -55,12 +66,12 @@ export const IntroVideo: React.FC = () => {
               controlsList="nodownload"
               disablePictureInPicture
               onContextMenu={(e) => e.preventDefault()}
-              className="max-w-full max-h-full rounded-lg border border-white/10 shadow-[0_0_40px_rgba(255,69,0,0.08)] bg-black"
+              className="max-w-full max-h-full rounded-lg border border-jarvis-orange/25 shadow-[0_0_60px_rgba(255,69,0,0.18)] bg-black"
             />
           </div>
 
           {/* Language switch */}
-          <div className="flex items-center justify-center gap-2 pb-6 pt-2 shrink-0">
+          <div className="relative z-10 flex items-center justify-center gap-2 pb-6 pt-2 shrink-0">
             {(['en', 'ar'] as const).map((l) => (
               <button
                 key={l}
