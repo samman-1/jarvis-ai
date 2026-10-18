@@ -1,7 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Check, X } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
+import { supabase } from '../utils/supabase';
 
 const WEBHOOK_URL = import.meta.env.VITE_N8N_WEBHOOK_URL as string | undefined;
 
@@ -13,6 +14,7 @@ const L = {
     eyebrow: 'Book a meeting', head: "Let's talk.",
     name: 'Name', email: 'Email', phone: 'Number', company: 'Company',
     request: 'Request', sending: 'Sending…', tz: 'Jeddah time · GMT+3',
+    taken: 'That time was just booked — please pick another.',
     sent: 'Request sent.', confirm: "A confirmation email is on its way to your inbox.", done: 'Done',
     months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
     dowShort: ['S', 'M', 'T', 'W', 'T', 'F', 'S'],
@@ -23,6 +25,7 @@ const L = {
     eyebrow: 'احجز اجتماعاً', head: 'لنتحدّث.',
     name: 'الاسم', email: 'البريد الإلكتروني', phone: 'رقم الجوال', company: 'اسم الشركة',
     request: 'إرسال الطلب', sending: 'جارٍ الإرسال…', tz: 'بتوقيت جدة · GMT+3',
+    taken: 'هذا الموعد محجوز — الرجاء اختيار وقت آخر.',
     sent: 'تم إرسال طلبك.', confirm: 'وصلتك رسالة تأكيد على بريدك الإلكتروني.', done: 'تم',
     months: ['يناير', 'فبراير', 'مارس', 'أبريل', 'مايو', 'يونيو', 'يوليو', 'أغسطس', 'سبتمبر', 'أكتوبر', 'نوفمبر', 'ديسمبر'],
     dowShort: ['ح', 'ن', 'ث', 'ر', 'خ', 'ج', 'س'],
@@ -46,6 +49,10 @@ export const BookMeeting: React.FC = () => {
   const [step, setStep] = useState<Step>('date');
   const [form, setForm] = useState({ name: '', email: '', phone: '', company: '', company_website: '' });
   const [sending, setSending] = useState(false);
+  // Slots already booked (keyed "YYYY-MM-DD:hour"), loaded from Supabase so two
+  // people can never pick the same date+time. slotTaken = a race was just lost.
+  const [taken, setTaken] = useState<Set<string>>(new Set());
+  const [slotTaken, setSlotTaken] = useState(false);
 
   useEffect(() => {
     if (isLeadFormOpen) {
@@ -74,6 +81,25 @@ export const BookMeeting: React.FC = () => {
   const fmtTime = (h: number) => { const ap = h < 12 ? s.am : s.pm; const hh = h % 12 || 12; return `${hh}:00 ${ap}`; };
   const maxView = new Date(today.getFullYear(), today.getMonth() + 3, 1);
 
+  // Pull the list of already-booked slots so we can gray them out. Best-effort:
+  // if Supabase is unreachable the calendar still works, the DB just stays the
+  // final guard against a double-booking at submit time.
+  const refreshTaken = useCallback(async () => {
+    if (!supabase) return;
+    const from = key(today);
+    const to = key(new Date(today.getFullYear(), today.getMonth() + 4, 0));
+    try {
+      const { data, error } = await supabase.rpc('taken_slots', { p_from: from, p_to: to });
+      if (error || !Array.isArray(data)) return;
+      setTaken(new Set(data.map((r: { slot_date: string; slot_hour: number }) => `${r.slot_date}:${r.slot_hour}`)));
+    } catch { /* ignore — availability is best-effort */ }
+  }, [today]);
+
+  useEffect(() => { if (isLeadFormOpen) { setSlotTaken(false); refreshTaken(); } }, [isLeadFormOpen, refreshTaken]);
+
+  const slotIsTaken = (d: Date, h: number) => taken.has(`${key(d)}:${h}`);
+  const dayFull = (d: Date) => TIMES.every((h) => taken.has(`${key(d)}:${h}`));
+
   const days = useMemo(() => {
     const first = new Date(view.getFullYear(), view.getMonth(), 1);
     const start = first.getDay();
@@ -89,6 +115,27 @@ export const BookMeeting: React.FC = () => {
     if (form.company_website) { setStep('done'); return; }
     if (!date || time === null) return;
     setSending(true);
+    setSlotTaken(false);
+
+    // 1) Reserve the slot in Supabase FIRST. The database refuses a second booking
+    //    for the same date+time, so two clients can never collide. If the exact
+    //    slot was just taken, bounce the user back to pick another time.
+    if (supabase) {
+      try {
+        const { data, error } = await supabase.rpc('book_slot', {
+          p_date: key(date), p_hour: time,
+          p_name: form.name.trim(), p_email: form.email.trim(),
+          p_phone: form.phone.trim(), p_company: form.company.trim(),
+          p_language: language, p_honeypot: form.company_website || '',
+        });
+        if (!error && data === 'taken') {
+          setSending(false); setSlotTaken(true);
+          await refreshTaken(); setStep('time'); return;
+        }
+        // 'ok' | 'invalid' | network error → never lose the lead; email anyway.
+      } catch { /* Supabase hiccup — fall through to the email automation */ }
+    }
+
     const payload = {
       type: 'meeting',
       name: form.name.trim(), email: form.email.trim(), phone: form.phone.trim(), company: form.company.trim(),
@@ -143,11 +190,11 @@ export const BookMeeting: React.FC = () => {
                   <div className="grid grid-cols-7 gap-y-1">
                     {days.map((d, i) => {
                       if (!d) return <div key={i} />;
-                      const disabled = d < today || !isWorkday(d);
+                      const disabled = d < today || !isWorkday(d) || dayFull(d);
                       const sel = date && key(date) === key(d);
                       return (
                         <button key={i} disabled={disabled}
-                          onClick={() => { setDate(d); setTime(null); setStep('time'); }}
+                          onClick={() => { setSlotTaken(false); setDate(d); setTime(null); setStep('time'); }}
                           className={`aspect-square grid place-items-center font-mono text-sm rounded-sm transition
                             ${disabled ? 'text-gray-700 cursor-not-allowed' : sel ? 'bg-jarvis-orange text-black font-bold' : 'text-gray-300 hover:text-jarvis-orange'}`}>
                           {d.getDate()}
@@ -161,14 +208,18 @@ export const BookMeeting: React.FC = () => {
               {step === 'time' && date && (
                 <motion.div key="time" initial={{ opacity: 0, x: 12 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -12 }} transition={{ duration: 0.25 }}>
                   <button onClick={() => setStep('date')} className={`${fontCls} text-[10px] text-gray-500 hover:text-jarvis-orange uppercase tracking-widest mb-5`}>{back} {human(date)}</button>
+                  {slotTaken && <p className={`mb-3 ${fontCls} text-[11px] text-jarvis-orange ${ar ? 'font-arabic' : ''}`}>{s.taken}</p>}
                   <div className="grid grid-cols-3 gap-2">
-                    {TIMES.map((h) => (
-                      <button key={h} onClick={() => { setTime(h); setStep('form'); }}
+                    {TIMES.map((h) => {
+                      const tTaken = slotIsTaken(date, h);
+                      return (
+                      <button key={h} disabled={tTaken} onClick={() => { setSlotTaken(false); setTime(h); setStep('form'); }}
                         className={`py-3 font-mono text-xs rounded-sm border transition
-                          ${time === h ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold' : 'border-white/10 text-gray-300 hover:border-jarvis-orange hover:text-jarvis-orange'}`}>
+                          ${tTaken ? 'border-white/5 text-gray-700 line-through cursor-not-allowed' : time === h ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold' : 'border-white/10 text-gray-300 hover:border-jarvis-orange hover:text-jarvis-orange'}`}>
                         {fmtTime(h)}
                       </button>
-                    ))}
+                      );
+                    })}
                   </div>
                   <p className={`mt-5 ${fontCls} text-[10px] text-gray-600`}>{s.tz}</p>
                 </motion.div>
