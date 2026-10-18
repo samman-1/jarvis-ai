@@ -8,6 +8,7 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [language, setLanguage] = useState<Language>('en');
   const [direction, setDirection] = useState<Direction>('ltr');
   const [isLeadFormOpen, setIsLeadFormOpen] = useState(false);
+  const [isVideoOpen, setIsVideoOpen] = useState(false);
   const [activeLegalModal, setActiveLegalModal] = useState<'privacy' | 'terms' | null>(null);
 
   useEffect(() => {
@@ -34,12 +35,27 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     try { if (window.location.pathname.startsWith('/book')) window.history.pushState({}, '', '/'); } catch { /* noop */ }
   };
 
-  // Direct link (/book) opens the overlay; the back button closes it.
+  // "Watch intro" opens the intro-video view over the site, same pattern as /book.
+  // /watch is a shareable direct link (for LinkedIn etc.); the back button closes it.
+  const openVideo = () => {
+    setIsVideoOpen(true);
+    try { if (!window.location.pathname.startsWith('/watch')) window.history.pushState({ video: true }, '', '/watch'); } catch { /* noop */ }
+  };
+  const closeVideo = () => {
+    setIsVideoOpen(false);
+    try { if (window.location.pathname.startsWith('/watch')) window.history.pushState({}, '', '/'); } catch { /* noop */ }
+  };
+
+  // Direct links (/book, /watch) open the right view; the back button closes it.
   useEffect(() => {
-    if (window.location.pathname.startsWith('/book')) setIsLeadFormOpen(true);
-    const onPop = () => setIsLeadFormOpen(window.location.pathname.startsWith('/book'));
-    window.addEventListener('popstate', onPop);
-    return () => window.removeEventListener('popstate', onPop);
+    const sync = () => {
+      const path = window.location.pathname;
+      setIsLeadFormOpen(path.startsWith('/book'));
+      setIsVideoOpen(path.startsWith('/watch'));
+    };
+    sync();
+    window.addEventListener('popstate', sync);
+    return () => window.removeEventListener('popstate', sync);
   }, []);
 
   const openLegalModal = (type: 'privacy' | 'terms') => setActiveLegalModal(type);
@@ -59,9 +75,12 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       direction, 
       toggleLanguage, 
       t, 
-      isLeadFormOpen, 
-      openLeadForm, 
+      isLeadFormOpen,
+      openLeadForm,
       closeLeadForm,
+      isVideoOpen,
+      openVideo,
+      closeVideo,
       activeLegalModal,
       openLegalModal,
       closeLegalModal

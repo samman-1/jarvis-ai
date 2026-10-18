@@ -11,6 +11,7 @@ import { Clients } from './components/Clients';
 import { Footer } from './components/Footer';
 import { CustomCursor } from './components/CustomCursor';
 import { BookMeeting } from './components/BookMeeting';
+import { IntroVideo } from './components/IntroVideo';
 import { LegalModal } from './components/LegalModal';
 import { LanguageProvider } from './contexts/LanguageContext';
 
@@ -20,6 +21,7 @@ function AppContent() {
       <CustomCursor />
       <Navbar />
       <BookMeeting />
+      <IntroVideo />
       <LegalModal />
       <main>
         <Hero />

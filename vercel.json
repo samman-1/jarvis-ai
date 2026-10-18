@@ -4,7 +4,8 @@
     { "source": "/privacy", "destination": "/privacy.html" },
     { "source": "/terms", "destination": "/privacy.html" },
     { "source": "/support", "destination": "/support.html" },
-    { "source": "/book", "destination": "/" }
+    { "source": "/book", "destination": "/" },
+    { "source": "/watch", "destination": "/" }
   ],
   "headers": [
     {

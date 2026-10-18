@@ -4,7 +4,7 @@ import { Menu, X, Globe } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 export const Navbar: React.FC = () => {
-  const { t, language, toggleLanguage, openLeadForm } = useLanguage();
+  const { t, language, toggleLanguage, openLeadForm, openVideo } = useLanguage();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   // Unified portal login gateway. Local default; set VITE_PORTAL_LOGIN_URL in prod.
@@ -64,7 +64,14 @@ export const Navbar: React.FC = () => {
             </a>
           ))}
           
-          <button 
+          <button
+            onClick={openVideo}
+            className="whitespace-nowrap text-xs font-mono rtl:font-arabic text-gray-400 hover:text-jarvis-orange transition-colors uppercase tracking-wider"
+          >
+            {t('nav.watch')}
+          </button>
+
+          <button
             onClick={toggleLanguage}
             className="flex items-center gap-2 text-xs font-mono text-white hover:text-jarvis-orange transition-colors border border-white/20 px-3 py-1.5 rounded hover:border-jarvis-orange/50"
           >
@@ -120,6 +127,16 @@ export const Navbar: React.FC = () => {
                     {t(item.label)}
                   </motion.a>
                 ))}
+
+                <motion.button
+                  initial={{ opacity: 0, x: -20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: navItems.length * 0.05 }}
+                  onClick={() => { openVideo(); setIsMenuOpen(false); }}
+                  className="text-2xl font-mono rtl:font-arabic text-white hover:text-jarvis-orange transition-colors uppercase tracking-widest text-center"
+                >
+                  {t('nav.watch')}
+                </motion.button>
                 
                 <motion.div 
                   initial={{ opacity: 0 }}
