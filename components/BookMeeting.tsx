@@ -97,8 +97,18 @@ export const BookMeeting: React.FC = () => {
 
   useEffect(() => { if (isLeadFormOpen) { setSlotTaken(false); refreshTaken(); } }, [isLeadFormOpen, refreshTaken]);
 
+  // Current moment in Jeddah/Riyadh (GMT+3), so a slot that already passed there
+  // can't be booked no matter what timezone the visitor's device is in.
+  const riyadhNow = () => {
+    const d = new Date();
+    const date = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Riyadh' }).format(d);
+    const hour = parseInt(new Intl.DateTimeFormat('en-GB', { timeZone: 'Asia/Riyadh', hour: '2-digit', hourCycle: 'h23' }).format(d), 10);
+    return { date, hour };
+  };
+  const isPastSlot = (d: Date, h: number) => { const n = riyadhNow(); return key(d) === n.date && h <= n.hour; };
   const slotIsTaken = (d: Date, h: number) => taken.has(`${key(d)}:${h}`);
-  const dayFull = (d: Date) => TIMES.every((h) => taken.has(`${key(d)}:${h}`));
+  const slotOff = (d: Date, h: number) => slotIsTaken(d, h) || isPastSlot(d, h);
+  const dayFull = (d: Date) => TIMES.every((h) => slotOff(d, h));
 
   const days = useMemo(() => {
     const first = new Date(view.getFullYear(), view.getMonth(), 1);
@@ -114,6 +124,7 @@ export const BookMeeting: React.FC = () => {
     e.preventDefault();
     if (form.company_website) { setStep('done'); return; }
     if (!date || time === null) return;
+    if (isPastSlot(date, time)) { setSlotTaken(true); setStep('time'); return; } // slot passed while filling
     setSending(true);
     setSlotTaken(false);
 
@@ -211,11 +222,12 @@ export const BookMeeting: React.FC = () => {
                   {slotTaken && <p className={`mb-3 ${fontCls} text-[11px] text-jarvis-orange ${ar ? 'font-arabic' : ''}`}>{s.taken}</p>}
                   <div className="grid grid-cols-3 gap-2">
                     {TIMES.map((h) => {
-                      const tTaken = slotIsTaken(date, h);
+                      const off = slotOff(date, h);
+                      const booked = slotIsTaken(date, h);
                       return (
-                      <button key={h} disabled={tTaken} onClick={() => { setSlotTaken(false); setTime(h); setStep('form'); }}
+                      <button key={h} disabled={off} onClick={() => { setSlotTaken(false); setTime(h); setStep('form'); }}
                         className={`py-3 font-mono text-xs rounded-sm border transition
-                          ${tTaken ? 'border-white/5 text-gray-700 line-through cursor-not-allowed' : time === h ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold' : 'border-white/10 text-gray-300 hover:border-jarvis-orange hover:text-jarvis-orange'}`}>
+                          ${off ? `border-white/5 text-gray-700 cursor-not-allowed ${booked ? 'line-through' : ''}` : time === h ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold' : 'border-white/10 text-gray-300 hover:border-jarvis-orange hover:text-jarvis-orange'}`}>
                         {fmtTime(h)}
                       </button>
                       );
