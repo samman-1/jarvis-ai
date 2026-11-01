@@ -30,10 +30,10 @@ export const Navbar: React.FC = () => {
 
   const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
+  // backdrop-blur only at xl (desktop nav). Below xl the hamburger menu is a
+  // fixed full-screen overlay INSIDE this nav; a backdrop-filter here would
+  // become its containing block and squash it into the bar (broke iPad).
   return (
-    {/* backdrop-blur only at xl (desktop nav). Below xl the hamburger menu is a
-        fixed full-screen overlay INSIDE this nav; a backdrop-filter here would
-        become its containing block and squash it into the bar (broke iPad). */}
     <nav className="fixed top-0 w-full z-[100] bg-black xl:bg-background/90 xl:backdrop-blur-xl border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 md:px-6 py-4 flex justify-between items-center relative">
         {/* Branding */}
