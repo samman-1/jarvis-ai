@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, RotateCcw, RotateCw, Volume2, VolumeX, Play } from 'lucide-react';
+import { X, RotateCcw, RotateCw, Volume2 } from 'lucide-react';
 import { useLanguage } from '../contexts/LanguageContext';
 
 // The two hosted intro videos (EN + AR). Served from /public, no download button.
@@ -133,37 +133,31 @@ export const IntroVideo: React.FC = () => {
             </div>
           </div>
 
-          {/* Control row: skip -10 / +10, mute, then language */}
-          <div className="relative z-10 flex flex-col items-center gap-4 pb-6 pt-2 shrink-0">
-            <div className="flex items-center gap-3">
-              <button onClick={() => skip(-10)} aria-label="Back 10 seconds"
-                className="flex items-center gap-1 px-3 py-2 rounded-md border border-white/15 text-gray-300 hover:text-jarvis-orange hover:border-jarvis-orange/50 transition font-mono text-[11px]">
-                <RotateCcw className="w-4 h-4" /> 10
+          {/* One control row: skip -10 / +10 sit right beside the language toggle,
+              and wrap onto a second line on narrow screens. */}
+          <div className="relative z-10 flex flex-wrap items-center justify-center gap-2 sm:gap-2.5 px-4 pb-6 pt-3 shrink-0">
+            <button onClick={() => skip(-10)} aria-label="Back 10 seconds"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-md border border-white/15 text-gray-300 hover:text-jarvis-orange hover:border-jarvis-orange/50 transition font-mono text-[11px]">
+              <RotateCcw className="w-4 h-4" /> 10
+            </button>
+            <button onClick={() => skip(10)} aria-label="Forward 10 seconds"
+              className="flex items-center gap-1.5 px-3 py-2 rounded-md border border-white/15 text-gray-300 hover:text-jarvis-orange hover:border-jarvis-orange/50 transition font-mono text-[11px]">
+              10 <RotateCw className="w-4 h-4" />
+            </button>
+            <span className="hidden sm:block w-px h-6 bg-white/15 mx-1" />
+            {(['en', 'ar'] as const).map((l) => (
+              <button
+                key={l}
+                onClick={() => setVlang(l)}
+                className={`px-5 py-2 text-xs uppercase tracking-widest border transition ${
+                  vlang === l
+                    ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold'
+                    : 'border-white/15 text-gray-400 hover:text-jarvis-orange hover:border-jarvis-orange/50'
+                } ${l === 'ar' ? 'font-arabic' : 'font-mono'}`}
+              >
+                {l === 'en' ? 'English' : 'العربية'}
               </button>
-              <button onClick={toggleMute} aria-label={muted ? 'Unmute' : 'Mute'}
-                className="w-10 h-10 grid place-items-center rounded-md border border-white/15 text-gray-300 hover:text-jarvis-orange hover:border-jarvis-orange/50 transition">
-                {muted ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-              </button>
-              <button onClick={() => skip(10)} aria-label="Forward 10 seconds"
-                className="flex items-center gap-1 px-3 py-2 rounded-md border border-white/15 text-gray-300 hover:text-jarvis-orange hover:border-jarvis-orange/50 transition font-mono text-[11px]">
-                10 <RotateCw className="w-4 h-4" />
-              </button>
-            </div>
-            <div className="flex items-center gap-2">
-              {(['en', 'ar'] as const).map((l) => (
-                <button
-                  key={l}
-                  onClick={() => setVlang(l)}
-                  className={`px-5 py-2 text-xs uppercase tracking-widest border transition ${
-                    vlang === l
-                      ? 'bg-jarvis-orange text-black border-jarvis-orange font-bold'
-                      : 'border-white/15 text-gray-400 hover:text-jarvis-orange hover:border-jarvis-orange/50'
-                  } ${l === 'ar' ? 'font-arabic' : 'font-mono'}`}
-                >
-                  {l === 'en' ? 'English' : 'العربية'}
-                </button>
-              ))}
-            </div>
+            ))}
           </div>
         </motion.div>
       )}
